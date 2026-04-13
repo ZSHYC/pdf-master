@@ -1,33 +1,163 @@
-# PDF-Master 配置文件
+# PDF-Master 配置文件示例
+# 复制此文件为 config.yaml 并根据需要修改
 
+# ============================================
 # AI 模型配置
+# ============================================
 ai:
+  # 默认使用的 AI 提供商
+  # 可选值: claude, openai, gemini, deepseek, qwen, zhipu, moonshot, ollama
   default_provider: claude
+  
+  # 各提供商配置
   providers:
+    # Claude (Anthropic)
     claude:
+      # API Key（推荐使用环境变量）
       api_key: ${ANTHROPIC_API_KEY}
-      model: claude-sonnet-4-6
+      # 模型名称
+      model: claude-3-5-sonnet-20241022
+      # 最大输出 token 数
+      max_tokens: 4096
+      # 温度参数（0-1）
+      temperature: 0.7
+    
+    # OpenAI
     openai:
       api_key: ${OPENAI_API_KEY}
-      model: gpt-4
+      model: gpt-4o
+      max_tokens: 4096
+    
+    # Google Gemini
+    gemini:
+      api_key: ${GOOGLE_API_KEY}
+      model: gemini-2.0-flash-exp
+      max_tokens: 4096
+    
+    # DeepSeek
+    deepseek:
+      api_key: ${DEEPSEEK_API_KEY}
+      model: deepseek-chat
+      # DeepSeek 使用 OpenAI 兼容接口
+      base_url: https://api.deepseek.com/v1
+    
+    # 通义千问 (Qwen)
     qwen:
       api_key: ${QWEN_API_KEY}
-      model: qwen-max
+      model: qwen-turbo
+      base_url: https://dashscope.aliyuncs.com/compatible-mode/v1
+    
+    # 智谱 GLM
+    zhipu:
+      api_key: ${ZHIPU_API_KEY}
+      model: glm-4-flash
+    
+    # Moonshot
+    moonshot:
+      api_key: ${MOONSHOT_API_KEY}
+      model: moonshot-v1-8k
+      base_url: https://api.moonshot.cn/v1
+    
+    # Ollama (本地运行)
     ollama:
+      # Ollama 服务地址
       base_url: http://localhost:11434
-      model: llama3
+      # 默认模型
+      model: llama3.2
+      # 请求超时（秒）
+      timeout: 120
 
+# ============================================
 # OCR 配置
+# ============================================
 ocr:
+  # 默认 OCR 引擎
+  # 可选值: tesseract, paddleocr
   default_engine: tesseract
+  
+  # 各引擎配置
   engines:
+    # Tesseract OCR
     tesseract:
+      # 语言包列表
+      # 常用: chi_sim (简体中文), eng (英文), chi_tra (繁体中文), jpn (日文)
       languages: [chi_sim, eng]
+      # DPI 设置
+      dpi: 300
+      # 数据路径（如果自定义安装）
+      # tesseract_data_path: /usr/share/tesseract-ocr/5/tessdata
+    
+    # PaddleOCR
     paddleocr:
+      # 是否使用 GPU
       use_gpu: false
+      # 语言: ch (中文), en (英文), korean (韩文), japan (日文)
       lang: ch
+      # 检测模型路径（可选）
+      # det_model_dir: 
+      # 识别模型路径（可选）
+      # rec_model_dir:
 
+# ============================================
+# LaTeX 配置
+# ============================================
+latex:
+  # 默认 LaTeX 引擎
+  # 可选值: pdflatex, xelatex, lualatex
+  default_engine: xelatex
+  # 编译超时（秒）
+  timeout: 60
+  # TeX Live 路径（如果自定义安装）
+  # texlive_path: /usr/local/texlive
+
+# ============================================
 # 输出配置
+# ============================================
 output:
+  # 默认输出格式
   default_format: markdown
+  # 默认输出目录
   default_dir: ./output
+  # 是否保留原始文件结构
+  preserve_structure: true
+  # 文件名编码
+  encoding: utf-8
+
+# ============================================
+# 性能配置
+# ============================================
+performance:
+  # 最大文件大小（MB）
+  max_file_size_mb: 100
+  # 批处理大小
+  batch_size: 10
+  # 操作超时（秒）
+  timeout_seconds: 300
+  # 并发线程数
+  max_workers: 4
+
+# ============================================
+# 成本管理（AI API 调用）
+# ============================================
+cost_management:
+  # 是否启用成本追踪
+  enabled: true
+  # 每日预算上限（美元）
+  daily_budget: 10.0
+  # 每次请求最大 token 数
+  max_tokens_per_request: 8192
+  # 是否启用缓存
+  cache_enabled: true
+  # 缓存过期时间（秒）
+  cache_ttl: 3600
+
+# ============================================
+# 日志配置
+# ============================================
+logging:
+  # 日志级别: DEBUG, INFO, WARNING, ERROR
+  level: INFO
+  # 日志文件路径
+  file: logs/pdf-master.log
+  # 日志格式
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"

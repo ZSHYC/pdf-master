@@ -1,0 +1,95 @@
+# PDF-Master 配置文件示例
+# 复制此文件到 ~/.pdf-master/config.yaml 或项目根目录
+
+# AI 模型配置
+ai:
+  # 默认使用的 AI 提供商
+  default_provider: claude
+  
+  providers:
+    # Anthropic Claude
+    claude:
+      api_key: ${ANTHROPIC_API_KEY}
+      model: claude-3-5-sonnet-20241022
+    
+    # OpenAI GPT
+    openai:
+      api_key: ${OPENAI_API_KEY}
+      model: gpt-4o
+    
+    # Google Gemini
+    gemini:
+      api_key: ${GOOGLE_API_KEY}
+      model: gemini-2.0-flash-exp
+    
+    # DeepSeek (性价比高)
+    deepseek:
+      api_key: ${DEEPSEEK_API_KEY}
+      model: deepseek-chat
+      base_url: https://api.deepseek.com/v1
+    
+    # 通义千问 (中文优化)
+    qwen:
+      api_key: ${QWEN_API_KEY}
+      model: qwen-turbo
+      base_url: https://dashscope.aliyuncs.com/compatible-mode/v1
+    
+    # 智谱 GLM
+    zhipu:
+      api_key: ${ZHIPU_API_KEY}
+      model: glm-4-flash
+    
+    # Moonshot
+    moonshot:
+      api_key: ${MOONSHOT_API_KEY}
+      model: moonshot-v1-8k
+      base_url: https://api.moonshot.cn/v1
+    
+    # Ollama (本地)
+    ollama:
+      base_url: http://localhost:11434
+      model: llama3.2
+
+# OCR 配置
+ocr:
+  default_engine: tesseract
+  
+  engines:
+    tesseract:
+      # OCR 语言
+      languages: [chi_sim, eng]
+      # 图片 DPI
+      dpi: 300
+    
+    paddleocr:
+      use_gpu: false
+      lang: ch
+
+# LaTeX 配置
+latex:
+  default_engine: xelatex
+  
+  engines:
+    - pdflatex   # 纯英文
+    - xelatex    # 中文推荐
+    - lualatex   # 高级需求
+
+# 输出配置
+output:
+  default_format: markdown
+  default_dir: ./output
+  preserve_structure: true
+
+# 性能配置
+performance:
+  # 最大文件大小 (MB)
+  max_file_size_mb: 100
+  # 批处理大小
+  batch_size: 10
+  # 超时时间 (秒)
+  timeout_seconds: 300
+
+# 安全配置
+security:
+  # 默认加密算法
+  encryption_algorithm: AES-256

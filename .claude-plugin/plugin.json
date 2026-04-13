@@ -1,6 +1,6 @@
 {
   "name": "pdf-master",
-  "description": "全能型 PDF 处理插件：解析提取、编辑转换、AI 增强、OCR、LaTeX 排版、安全权限",
+  "description": "全能型 PDF 处理插件：解析提取、编辑转换、AI 增强（支持 8 大平台）、OCR 识别、LaTeX 排版、安全权限、表单处理",
   "version": "1.0.0",
   "author": {
     "name": "zshyc",
@@ -17,6 +17,19 @@
     "extract",
     "merge",
     "split",
-    "form"
+    "form",
+    "summarize",
+    "translate",
+    "encrypt",
+    "decrypt",
+    "watermark",
+    "claude",
+    "openai",
+    "gemini",
+    "qwen",
+    "deepseek",
+    "ollama",
+    "tesseract",
+    "paddleocr"
   ]
 }

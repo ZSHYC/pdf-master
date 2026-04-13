@@ -1,13 +1,23 @@
 {
   "name": "pdf-master-marketplace",
-  "description": "PDF Master - 全能型 PDF 处理插件",
+  "description": "PDF-Master - 全能型 PDF 处理插件",
   "owner": {
     "name": "ZSHYC",
     "email": "17669757689@163.com"
   },
   "metadata": {
-    "description": "全能型 PDF 处理插件：解析提取、编辑转换、AI 增强、OCR、LaTeX 排版",
-    "version": "1.0.0"
+    "description": "全能型 PDF 处理插件：解析提取、编辑转换、AI 增强（支持 8 大平台）、OCR 识别、LaTeX 排版、安全权限",
+    "version": "1.0.0",
+    "features": [
+      "文本、表格、图片、元数据提取",
+      "PDF 合并、拆分、旋转、水印",
+      "PDF 转 Excel、Markdown、图片",
+      "AI 智能摘要、问答、翻译",
+      "支持 Claude、OpenAI、Gemini、DeepSeek、Qwen、智谱、Moonshot、Ollama",
+      "OCR 识别（Tesseract、PaddleOCR）",
+      "PDF 加密、解密、敏感信息涂抹",
+      "表单检查、提取、填充"
+    ]
   },
   "plugins": [
     {
