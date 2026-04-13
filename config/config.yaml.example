@@ -1,0 +1,33 @@
+# PDF-Master 配置文件
+
+# AI 模型配置
+ai:
+  default_provider: claude
+  providers:
+    claude:
+      api_key: ${ANTHROPIC_API_KEY}
+      model: claude-sonnet-4-6
+    openai:
+      api_key: ${OPENAI_API_KEY}
+      model: gpt-4
+    qwen:
+      api_key: ${QWEN_API_KEY}
+      model: qwen-max
+    ollama:
+      base_url: http://localhost:11434
+      model: llama3
+
+# OCR 配置
+ocr:
+  default_engine: tesseract
+  engines:
+    tesseract:
+      languages: [chi_sim, eng]
+    paddleocr:
+      use_gpu: false
+      lang: ch
+
+# 输出配置
+output:
+  default_format: markdown
+  default_dir: ./output

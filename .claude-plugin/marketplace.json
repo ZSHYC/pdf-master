@@ -1,0 +1,23 @@
+{
+  "name": "pdf-master-marketplace",
+  "description": "PDF Master - 全能型 PDF 处理插件",
+  "owner": {
+    "name": "zshyc",
+    "email": "17669757689@163.com"
+  },
+  "metadata": {
+    "description": "全能型 PDF 处理插件：解析提取、编辑转换、AI 增强、OCR、LaTeX 排版",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "pdf-master",
+      "description": "全能型 PDF 处理插件：解析提取、编辑转换、AI 增强、OCR、LaTeX 排版、安全权限",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/pdf"
+      ]
+    }
+  ]
+}
