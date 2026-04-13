@@ -1,12 +1,14 @@
 ---
 name: pdf-explorer
-description: 探索PDF文件结构，提取元数据、目录、页面信息。用户需了解PDF结构时自动激活。
+description: 探索PDF文件结构，提取元数据、目录、页面信息。Use when you need to understand PDF structure, extract metadata, or check form fields. Automatically activates when analyzing PDF properties.
 model: haiku
 effort: low
 maxTurns: 10
 disallowedTools:
   - Write
   - Edit
+  - Bash(rm *)
+user-invocable: true
 ---
 
 # PDF Explorer Agent

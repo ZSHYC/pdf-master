@@ -1,50 +1,58 @@
 #!/usr/bin/env python3
-"""PDF-Master CLI Entry Point"""
+"""
+PDF-Master CLI - Command-line interface for PDF processing.
+This script is automatically added to PATH when the plugin is enabled.
+"""
+
 import sys
 import os
 
-# Add scripts directory to path
-script_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'skills', 'pdf', 'scripts')
-sys.path.insert(0, script_dir)
+# Add the skills directory to path
+SCRIPTS_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'skills', 'pdf', 'scripts')
+sys.path.insert(0, SCRIPTS_DIR)
 
 def main():
     if len(sys.argv) < 2:
         print("PDF-Master CLI")
         print("Usage: pdf-master <command> [args]")
         print("\nCommands:")
-        print("  extract   - Extract text/tables/images from PDF")
-        print("  merge     - Merge multiple PDFs")
-        print("  split     - Split PDF into parts")
-        print("  convert   - Convert PDF to other formats")
-        print("  summarize - AI-powered PDF summarization")
-        print("  ocr       - OCR recognition for scanned PDFs")
-        print("  encrypt   - Encrypt PDF with password")
-        print("  decrypt   - Decrypt PDF")
-        print("\nRun 'pdf-master <command> --help' for more info.")
-        sys.exit(0)
+        print("  extract      Extract text, tables, images from PDF")
+        print("  merge        Merge multiple PDFs")
+        print("  split        Split PDF into pages")
+        print("  summarize    AI-powered PDF summarization")
+        print("  translate    Translate PDF content")
+        print("  ocr          OCR recognition for scanned PDFs")
+        print("  encrypt      Encrypt PDF with password")
+        print("  decrypt      Decrypt password-protected PDF")
+        print("  info         Display PDF information")
+        print("  validate     Validate PDF integrity")
+        return 0
 
     command = sys.argv[1]
     args = sys.argv[2:]
 
     # Map commands to scripts
-    scripts = {
+    script_map = {
         'extract': 'extract_text.py',
         'merge': 'merge_pdfs.py',
         'split': 'split_pdf.py',
-        'convert': 'convert_pdf_to_images.py',
         'summarize': 'summarize_pdf.py',
+        'translate': 'translate_pdf.py',
         'ocr': 'ocr_pdf.py',
         'encrypt': 'encrypt_pdf.py',
         'decrypt': 'decrypt_pdf.py',
+        'info': 'pdf_info.py',
+        'validate': 'pdf_validate.py',
     }
 
-    if command not in scripts:
+    if command not in script_map:
         print(f"Unknown command: {command}")
-        print("Available commands:", ', '.join(scripts.keys()))
-        sys.exit(1)
+        print(f"Available commands: {', '.join(script_map.keys())}")
+        return 1
 
-    script_path = os.path.join(script_dir, scripts[command])
-    os.system(f'python {script_path} {" ".join(args)}')
+    script_path = os.path.join(SCRIPTS_DIR, script_map[command])
+    os.system(f'python "{script_path}" {" ".join(args)}')
+    return 0
 
 if __name__ == '__main__':
-    main()
+    sys.exit(main())

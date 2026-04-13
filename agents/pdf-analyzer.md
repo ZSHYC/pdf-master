@@ -1,12 +1,14 @@
 ---
 name: pdf-analyzer
-description: 深度分析PDF内容，包括文本提取、表格识别、图片分析。用户需理解PDF内容时自动激活。
+description: 深度分析PDF内容，包括文本提取、表格识别、图片分析。Use when you need to understand PDF content, extract text/tables/images, or perform OCR. Automatically activates for content analysis tasks.
 model: sonnet
 effort: medium
 maxTurns: 20
 disallowedTools:
   - Write
   - Edit
+  - Bash(rm *)
+user-invocable: true
 ---
 
 # PDF Analyzer Agent

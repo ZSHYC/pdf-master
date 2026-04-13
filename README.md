@@ -66,15 +66,51 @@
 - Python 3.8+
 - Claude Code CLI
 
-### 安装
+### 安装方式
+
+#### 方式一：通过 Plugin Marketplace 安装（推荐）
+
+```bash
+# 1. 添加 marketplace
+/plugin marketplace add ZSHYC/pdf-master
+
+# 2. 安装插件
+/plugin install pdf-master@zshyc-pdf-master
+
+# 3. 重新加载插件
+/reload-plugins
+
+# 4. 使用插件技能（命名空间格式）
+/pdf-master:pdf extract document.pdf
+/pdf-master:pdf summarize document.pdf
+```
+
+#### 方式二：本地开发安装
 
 ```bash
 # 克隆仓库
-git clone https://github.com/zshyc/pdf-master.git
+git clone https://github.com/ZSHYC/pdf-master.git
 cd pdf-master
 
 # 安装核心依赖
 pip install -r requirements.txt
+
+# 使用 --plugin-dir 测试
+claude --plugin-dir .
+```
+
+#### 方式三：手动安装到项目
+
+```bash
+# 复制到项目目录
+cp -r pdf-master .claude/plugins/
+
+# 在 .claude/settings.json 中启用
+{
+  "enabledPlugins": {
+    "pdf-master@local": true
+  }
+}
 ```
 
 ### 在 Claude Code 中使用
@@ -264,16 +300,82 @@ pdf-master/
 │   ├── SKILL.md             # 技能入口
 │   ├── scripts/             # Python 脚本 (34 个)
 │   └── *.md                 # 专项文档
-├── agents/                  # 子代理定义
-│   ├── pdf-explorer.md      # 结构探索
-│   ├── pdf-analyzer.md      # 内容分析
-│   └── pdf-converter.md     # 格式转换
+├── agents/                  # 子代理定义 (15 个)
+│   ├── pdf-explorer.md      # 结构探索 (haiku)
+│   ├── pdf-analyzer.md      # 内容分析 (sonnet)
+│   ├── pdf-converter.md     # 格式转换 (sonnet)
+│   ├── pdf-extract.md       # 内容提取 (sonnet)
+│   ├── pdf-merge-split.md   # 合并拆分 (haiku)
+│   ├── pdf-security.md      # 安全处理 (sonnet)
+│   ├── pdf-ocr.md           # OCR识别 (sonnet)
+│   ├── pdf-ai.md            # AI增强 (sonnet)
+│   ├── pdf-form.md          # 表单处理 (haiku)
+│   ├── pdf-batch.md         # 批量处理 (sonnet)
+│   ├── pdf-compare.md       # 文件对比 (sonnet)
+│   ├── pdf-repair.md        # 文件修复 (sonnet)
+│   ├── pdf-compress.md      # 文件压缩 (haiku)
+│   ├── pdf-watermark.md     # 水印处理 (haiku)
+│   └── pdf-metadata.md      # 元数据管理 (haiku)
 ├── hooks/                   # 生命周期钩子
+│   └── hooks.json           # SessionStart, PreToolUse, PostToolUse 等
+├── bin/                     # CLI 工具 (自动加入 PATH)
+│   └── pdf-master           # 命令行入口
+├── output-styles/           # 输出样式定义
 ├── tests/                   # 测试 (232 用例)
 ├── docs/                    # 文档
 ├── config/                  # 配置模板
 └── examples/                # 示例脚本
 ```
+
+---
+
+## 🔌 插件组件
+
+### Skills（技能）
+
+| 技能 | 描述 | 调用方式 |
+|------|------|----------|
+| `pdf` | PDF 处理主技能 | `/pdf-master:pdf <action>` |
+
+### Agents（子代理）
+
+| 代理 | 模型 | 用途 |
+|------|------|------|
+| `pdf-explorer` | haiku | 快速探索 PDF 结构、元数据、表单字段 |
+| `pdf-analyzer` | sonnet | 深度分析 PDF 内容、文本、表格、图片 |
+| `pdf-converter` | sonnet | 格式转换：PDF → Excel/Markdown/图片 |
+| `pdf-extract` | sonnet | 内容提取：文本、表格、图片 |
+| `pdf-merge-split` | haiku | 合并多个 PDF 或拆分单个 PDF |
+| `pdf-security` | sonnet | 加密、解密、敏感信息涂抹 |
+| `pdf-ocr` | sonnet | OCR 识别：扫描件文字提取 |
+| `pdf-ai` | sonnet | AI 增强：摘要、翻译、问答 |
+| `pdf-form` | haiku | 表单处理：检查、填写、提取 |
+| `pdf-batch` | sonnet | 批量处理大量 PDF 文件 |
+| `pdf-compare` | sonnet | 对比两个 PDF 文件差异 |
+| `pdf-repair` | sonnet | 修复损坏的 PDF 文件 |
+| `pdf-compress` | haiku | 压缩 PDF 文件大小 |
+| `pdf-watermark` | haiku | 添加、管理 PDF 水印 |
+| `pdf-metadata` | haiku | 元数据提取、编辑、管理 |
+
+### Hooks（钩子）
+
+| 事件 | 功能 |
+|------|------|
+| `SessionStart` | 检查 PDF 依赖是否安装 |
+| `PreToolUse` | 阻止危险命令 (rm -rf) |
+| `PostToolUse` | PDF 文件修改后自动验证完整性 |
+| `PostToolUseFailure` | PDF 操作失败提示 |
+| `SubagentStart` | 子代理启动时注入上下文 |
+
+### 环境变量
+
+| 变量 | 描述 |
+|------|------|
+| `${CLAUDE_PLUGIN_ROOT}` | 插件安装目录 |
+| `${CLAUDE_PLUGIN_DATA}` | 插件持久化数据目录 |
+| `ANTHROPIC_API_KEY` | Claude API 密钥 |
+| `OPENAI_API_KEY` | OpenAI API 密钥 |
+| `GOOGLE_API_KEY` | Gemini API 密钥 |
 
 ---
 

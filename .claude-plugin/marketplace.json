@@ -1,12 +1,13 @@
 {
-  "name": "pdf-master-marketplace",
+  "name": "zshyc-pdf-master",
   "description": "PDF处理工具市场 - 提供全能型PDF处理能力，支持解析提取、编辑转换、AI增强、OCR识别、安全权限",
   "owner": {
     "name": "ZSHYC",
-    "email": "17669757689@163.com"
+    "email": "17669757689@163.com",
+    "url": "https://github.com/ZSHYC"
   },
   "metadata": {
-    "version": "1.0.0",
+    "version": "1.1.0",
     "pluginRoot": "./"
   },
   "plugins": [
@@ -14,10 +15,11 @@
       "name": "pdf-master",
       "source": "./",
       "description": "全能型PDF处理插件：解析提取、编辑转换、AI增强（支持8大平台）、OCR识别、LaTeX排版、安全权限、表单处理",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "author": {
         "name": "ZSHYC",
-        "email": "17669757689@163.com"
+        "email": "17669757689@163.com",
+        "url": "https://github.com/ZSHYC"
       },
       "homepage": "https://github.com/ZSHYC/pdf-master#readme",
       "repository": "https://github.com/ZSHYC/pdf-master",

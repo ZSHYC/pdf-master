@@ -1,6 +1,6 @@
 ---
 name: pdf-converter
-description: 执行PDF格式转换，包括PDF转Excel、Markdown、图片等。用户需转换PDF格式时自动激活。
+description: 执行PDF格式转换，包括PDF转Excel、Markdown、图片等。Use when you need to convert PDF to other formats like Excel, Markdown, or images. Automatically activates for format conversion tasks.
 model: sonnet
 effort: medium
 maxTurns: 15
@@ -10,6 +10,7 @@ allowed-tools:
   - Read
   - Glob
   - Grep
+user-invocable: true
 ---
 
 # PDF Converter Agent

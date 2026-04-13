@@ -1,6 +1,6 @@
 {
   "name": "pdf-master",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "全能型PDF处理插件：解析提取、编辑转换、AI增强（支持8大平台）、OCR识别、LaTeX排版、安全权限、表单处理",
   "author": {
     "name": "ZSHYC",
@@ -31,6 +31,7 @@
   "hooks": "./hooks/hooks.json",
   "mcpServers": "./.mcp.json",
   "outputStyles": "./output-styles",
+  "bin": "./bin",
   "userConfig": {
     "ai_provider": {
       "description": "默认AI提供商 (claude/openai/gemini/deepseek/qwen/zhipu/moonshot/ollama)",
