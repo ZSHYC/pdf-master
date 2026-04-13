@@ -1,0 +1,47 @@
+# ===========================================
+# PDF-Master - Dependencies
+# ===========================================
+
+# Core PDF processing
+pypdf>=3.0.0
+pdfplumber>=0.10.0
+PyMuPDF>=1.23.0
+reportlab>=4.0.0
+Pillow>=10.0.0
+
+# Utilities
+PyYAML>=6.0
+click>=8.0.0
+rich>=13.0.0
+
+# -------------------------------------------
+# Optional: AI Providers (install as needed)
+# -------------------------------------------
+# anthropic>=0.18.0      # Claude
+# openai>=1.0.0          # OpenAI
+# google-generativeai>=0.3.0  # Gemini
+# -------------------------------------------
+
+# -------------------------------------------
+# Optional: OCR (install as needed)
+# -------------------------------------------
+# pytesseract>=0.3.10    # Tesseract OCR
+# pdf2image>=1.16.0      # PDF to image conversion
+# paddlepaddle>=2.5.0    # PaddleOCR backend
+# paddleocr>=2.7.0       # PaddleOCR
+# -------------------------------------------
+
+# -------------------------------------------
+# Optional: LaTeX (system dependency)
+# -------------------------------------------
+# Requires: TeX Live or MiKTeX installed
+# -------------------------------------------
+
+# -------------------------------------------
+# Development Dependencies (requirements-dev.txt)
+# -------------------------------------------
+# pytest>=7.0.0
+# black>=23.0.0
+# isort>=5.12.0
+# mypy>=1.0.0
+# flake8>=6.0.0

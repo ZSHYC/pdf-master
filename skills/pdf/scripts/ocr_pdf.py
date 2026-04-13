@@ -12,19 +12,49 @@ import sys
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple, Any
 
+# Lazy import - dependencies checked at runtime
+MISSING_DEPS = []
 try:
     from pdf2image import convert_from_path
     from PIL import Image
     import pytesseract
-except ImportError as e:
-    print("Error: Required dependencies not installed.")
-    print("Please install: pip install pytesseract pdf2image Pillow")
-    print("\nAlso ensure the following are installed on your system:")
-    print("  - Tesseract OCR: https://github.com/tesseract-ocr/tesseract")
-    print("  - Poppler: https://github.com/oschwartz10612/poppler-windows/releases")
-    sys.exit(1)
+except ImportError:
+    MISSING_DEPS = ["pytesseract", "pdf2image", "Pillow"]
 
 
+# Engine constants
+ENGINE_TESSERACT = "tesseract"
+ENGINE_PADDLEOCR = "paddleocr"
+ENGINE_EASYOCR = "easyocr"
+
+
+
+
+def check_dependencies(engine: str = ENGINE_TESSERACT) -> List[str]:
+    """Check if required dependencies are installed for the given engine."""
+    missing = []
+    if engine == ENGINE_TESSERACT:
+        try:
+            import pytesseract
+            from pdf2image import convert_from_path
+            from PIL import Image
+        except ImportError:
+            missing = ["pytesseract", "pdf2image", "Pillow"]
+    elif engine == ENGINE_PADDLEOCR:
+        try:
+            from paddleocr import PaddleOCR
+            from pdf2image import convert_from_path
+            from PIL import Image
+        except ImportError:
+            missing = ["paddleocr", "pdf2image", "Pillow"]
+    elif engine == ENGINE_EASYOCR:
+        try:
+            import easyocr
+            from pdf2image import convert_from_path
+            from PIL import Image
+        except ImportError:
+            missing = ["easyocr", "pdf2image", "Pillow"]
+    return missing
 def check_tesseract_installed() -> bool:
     """Check if Tesseract is installed and accessible."""
     try:
@@ -287,6 +317,13 @@ Notes:
   - Use '+' to combine multiple languages (e.g., 'eng+chi_sim')
   - Install language packs: tesseract --list-langs
 """
+    )
+
+    parser.add_argument(
+        "--engine",
+        choices=["tesseract", "paddleocr", "easyocr"],
+        default="tesseract",
+        help="OCR engine (default: tesseract)"
     )
 
     parser.add_argument(
