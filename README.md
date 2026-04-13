@@ -6,12 +6,13 @@
 
 *一个插件，覆盖所有 PDF 场景 — 解析、编辑、转换、AI 增强、OCR、安全*
 
+[![Website](https://img.shields.io/badge/官网-pdf--master.site-green)](https://zshyc.github.io/pdf-master/)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/python-3.8%2B-blue)](https://www.python.org/)
 [![Claude Code](https://img.shields.io/badge/Claude-Code-purple)](https://claude.ai/code)
 [![CI](https://github.com/zshyc/pdf-master/actions/workflows/ci.yml/badge.svg)](https://github.com/zshyc/pdf-master/actions)
 
-[功能特性](#-功能特性) • [快速开始](#-快速开始) • [使用指南](#-使用指南) • [AI 配置](#-ai-provider-配置) • [开发](#-开发)
+[🌐 官网](https://zshyc.github.io/pdf-master/) • [功能特性](#-功能特性) • [快速开始](#-快速开始) • [使用指南](#-使用指南) • [AI 配置](#-ai-provider-配置) • [开发](#-开发)
 
 </div>
 

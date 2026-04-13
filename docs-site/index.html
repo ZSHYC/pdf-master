@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF-Master - 全能型 PDF 处理 Claude Code 插件</title>
+    <meta name="description" content="一个插件，覆盖所有 PDF 场景 — 解析、编辑、转换、AI 增强、OCR、安全。支持 8 大 AI 平台，28+ 种操作。">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📄</text></svg>">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">
+                <span class="logo-icon">📄</span>
+                <span class="logo-text">PDF-Master</span>
+            </a>
+            <div class="nav-links">
+                <a href="#features">功能特性</a>
+                <a href="#comparison">功能对比</a>
+                <a href="#quickstart">快速开始</a>
+                <a href="#ai-providers">AI 支持</a>
+                <a href="https://github.com/zshyc/pdf-master" target="_blank" class="nav-github">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.976-.399 3-.405 1.024.006 2.043.139 3 .405 2.292-1.552 3.3-1.23 3.3-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.218.694.825.576c4.765-1.589 8.199-6.086 8.199-11.386c0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                    GitHub
+                </a>
+            </div>
+            <button class="nav-toggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-container">
+            <div class="hero-badge">
+                <span class="badge-icon">🚀</span>
+                <span>v1.1.0 发布</span>
+            </div>
+            <h1 class="hero-title">
+                全能型 PDF 处理<br>
+                <span class="gradient-text">Claude Code 插件</span>
+            </h1>
+            <p class="hero-subtitle">
+                一个插件，覆盖所有 PDF 场景<br>
+                解析 · 编辑 · 转换 · AI 增强 · OCR · 安全
+            </p>
+            <div class="hero-cta">
+                <a href="#quickstart" class="btn btn-primary">
+                    <span>快速开始</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+                <a href="https://github.com/zshyc/pdf-master" target="_blank" class="btn btn-secondary">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.976-.399 3-.405 1.024.006 2.043.139 3 .405 2.292-1.552 3.3-1.23 3.3-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.218.694.825.576c4.765-1.589 8.199-6.086 8.199-11.386c0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                    <span>查看源码</span>
+                </a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat">
+                    <span class="stat-value">28+</span>
+                    <span class="stat-label">操作类型</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value">8</span>
+                    <span class="stat-label">AI 平台</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value">232</span>
+                    <span class="stat-label">测试用例</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value">100+</span>
+                    <span class="stat-label">OCR 语言</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pain Point Section -->
+    <section class="pain-point">
+        <div class="container">
+            <div class="pain-card">
+                <div class="pain-icon">😫</div>
+                <h3>痛点</h3>
+                <p>处理 PDF 需要组合多个工具 — pypdf 提取文本、pdfplumber 提取表格、PyMuPDF 合并拆分、还要单独配置 OCR 和 AI...</p>
+            </div>
+            <div class="pain-arrow">→</div>
+            <div class="solution-card">
+                <div class="solution-icon">✨</div>
+                <h3>解法</h3>
+                <p><strong>PDF-Master</strong> 一个插件搞定全部，<strong>28+ 种操作</strong>，开箱即用。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">核心亮点</span>
+                <h2 class="section-title">为什么选择 PDF-Master？</h2>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🧩</div>
+                    <h3>一站式</h3>
+                    <p>无需组合多个工具，一个插件覆盖所有 PDF 场景</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>8 大 AI 平台</h3>
+                    <p>Claude / OpenAI / Gemini / DeepSeek / Qwen / 智谱 / Moonshot / Ollama</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <h3>双引擎 OCR</h3>
+                    <p>Tesseract + PaddleOCR，覆盖 100+ 语言</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>企业级安全</h3>
+                    <p>AES-256 加密、敏感信息涂抹、签名验证</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📐</div>
+                    <h3>LaTeX 渲染</h3>
+                    <p>pdflatex / xelatex / lualatex 三大引擎</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">✅</div>
+                    <h3>生产就绪</h3>
+                    <p>232 测试用例 + CI/CD + 完整文档</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Operations Section -->
+    <section class="operations">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">功能全景</span>
+                <h2 class="section-title">28+ 种操作，覆盖全场景</h2>
+            </div>
+            <div class="operations-grid">
+                <div class="op-category">
+                    <h4>📤 解析提取</h4>
+                    <ul>
+                        <li>文本提取（支持布局保留）</li>
+                        <li>表格提取（JSON/CSV/Excel）</li>
+                        <li>图片提取</li>
+                        <li>元数据提取</li>
+                    </ul>
+                </div>
+                <div class="op-category">
+                    <h4>✏️ 编辑修改</h4>
+                    <ul>
+                        <li>合并 PDF</li>
+                        <li>拆分 PDF</li>
+                        <li>旋转页面</li>
+                        <li>添加水印</li>
+                    </ul>
+                </div>
+                <div class="op-category">
+                    <h4>🔄 格式转换</h4>
+                    <ul>
+                        <li>PDF → 图片</li>
+                        <li>PDF → Excel</li>
+                        <li>PDF → Markdown</li>
+                        <li>PDF → Word</li>
+                    </ul>
+                </div>
+                <div class="op-category">
+                    <h4>🤖 AI 增强</h4>
+                    <ul>
+                        <li>智能摘要</li>
+                        <li>文档问答</li>
+                        <li>AI 翻译</li>
+                        <li>内容分析</li>
+                    </ul>
+                </div>
+                <div class="op-category">
+                    <h4>🔍 OCR 识别</h4>
+                    <ul>
+                        <li>Tesseract OCR</li>
+                        <li>PaddleOCR（中文优化）</li>
+                        <li>多语言支持</li>
+                        <li>批量 OCR</li>
+                    </ul>
+                </div>
+                <div class="op-category">
+                    <h4>🔐 安全权限</h4>
+                    <ul>
+                        <li>加密 PDF（AES-256）</li>
+                        <li>解密 PDF</li>
+                        <li>敏感信息涂抹</li>
+                        <li>签名验证</li>
+                    </ul>
+                </div>
+                <div class="op-category">
+                    <h4>📝 表单处理</h4>
+                    <ul>
+                        <li>检查表单字段</li>
+                        <li>填写表单</li>
+                        <li>提取表单数据</li>
+                        <li>表单验证</li>
+                    </ul>
+                </div>
+                <div class="op-category">
+                    <h4>🛠️ 工具脚本</h4>
+                    <ul>
+                        <li>PDF 信息</li>
+                        <li>验证完整性</li>
+                        <li>压缩文件</li>
+                        <li>修复损坏</li>
+                        <li>比较差异</li>
+                        <li>批量处理</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparison Section -->
+    <section id="comparison" class="comparison">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">功能对比</span>
+                <h2 class="section-title">为什么 PDF-Master 更强？</h2>
+            </div>
+            <div class="comparison-table-wrapper">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>功能</th>
+                            <th class="highlight">PDF-Master</th>
+                            <th>pypdf</th>
+                            <th>PyMuPDF</th>
+                            <th>pdfplumber</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>文本提取</td>
+                            <td class="highlight">✅</td>
+                            <td>✅</td>
+                            <td>✅</td>
+                            <td>✅</td>
+                        </tr>
+                        <tr>
+                            <td>表格提取</td>
+                            <td class="highlight">✅</td>
+                            <td>❌</td>
+                            <td>❌</td>
+                            <td>✅</td>
+                        </tr>
+                        <tr>
+                            <td>图片提取</td>
+                            <td class="highlight">✅</td>
+                            <td>✅</td>
+                            <td>✅</td>
+                            <td>❌</td>
+                        </tr>
+                        <tr>
+                            <td>合并/拆分</td>
+                            <td class="highlight">✅</td>
+                            <td>✅</td>
+                            <td>✅</td>
+                            <td>❌</td>
+                        </tr>
+                        <tr>
+                            <td>水印/旋转</td>
+                            <td class="highlight">✅</td>
+                            <td>✅</td>
+                            <td>✅</td>
+                            <td>❌</td>
+                        </tr>
+                        <tr>
+                            <td>加密/解密</td>
+                            <td class="highlight">✅</td>
+                            <td>✅</td>
+                            <td>✅</td>
+                            <td>❌</td>
+                        </tr>
+                        <tr class="unique-row">
+                            <td><strong>OCR 识别</strong></td>
+                            <td class="highlight"><strong>✅</strong></td>
+                            <td>❌</td>
+                            <td>❌</td>
+                            <td>❌</td>
+                        </tr>
+                        <tr class="unique-row">
+                            <td><strong>AI 摘要</strong></td>
+                            <td class="highlight"><strong>✅</strong></td>
+                            <td>❌</td>
+                            <td>❌</td>
+                            <td>❌</td>
+                        </tr>
+                        <tr class="unique-row">
+                            <td><strong>AI 翻译</strong></td>
+                            <td class="highlight"><strong>✅</strong></td>
+                            <td>❌</td>
+                            <td>❌</td>
+                            <td>❌</td>
+                        </tr>
+                        <tr class="unique-row">
+                            <td><strong>AI 问答</strong></td>
+                            <td class="highlight"><strong>✅</strong></td>
+                            <td>❌</td>
+                            <td>❌</td>
+                            <td>❌</td>
+                        </tr>
+                        <tr>
+                            <td>表单填充</td>
+                            <td class="highlight">✅</td>
+                            <td>✅</td>
+                            <td>❌</td>
+                            <td>❌</td>
+                        </tr>
+                        <tr class="unique-row">
+                            <td><strong>LaTeX 渲染</strong></td>
+                            <td class="highlight"><strong>✅</strong></td>
+                            <td>❌</td>
+                            <td>❌</td>
+                            <td>❌</td>
+                        </tr>
+                        <tr>
+                            <td>PDF 压缩</td>
+                            <td class="highlight">✅</td>
+                            <td>❌</td>
+                            <td>✅</td>
+                            <td>❌</td>
+                        </tr>
+                        <tr>
+                            <td>PDF 修复</td>
+                            <td class="highlight">✅</td>
+                            <td>❌</td>
+                            <td>✅</td>
+                            <td>❌</td>
+                        </tr>
+                        <tr>
+                            <td>PDF 比较</td>
+                            <td class="highlight">✅</td>
+                            <td>❌</td>
+                            <td>❌</td>
+                            <td>❌</td>
+                        </tr>
+                        <tr>
+                            <td>批量处理</td>
+                            <td class="highlight">✅</td>
+                            <td>❌</td>
+                            <td>❌</td>
+                            <td>❌</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Start Section -->
+    <section id="quickstart" class="quickstart">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">快速开始</span>
+                <h2 class="section-title">3 步上手</h2>
+            </div>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>安装插件</h3>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>Terminal</span>
+                            <button class="copy-btn" data-code="plugin marketplace add ZSHYC/pdf-master
+plugin install pdf-master@zshyc-pdf-master
+reload-plugins">复制</button>
+                        </div>
+                        <pre><code class="language-bash"># 1. 添加 marketplace
+/plugin marketplace add ZSHYC/pdf-master
+
+# 2. 安装插件
+/plugin install pdf-master@zshyc-pdf-master
+
+# 3. 重新加载插件
+/reload-plugins</code></pre>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>开始使用</h3>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>Terminal</span>
+                            <button class="copy-btn" data-code="pdf extract document.pdf
+pdf summarize document.pdf
+pdf ocr scanned.pdf">复制</button>
+                        </div>
+                        <pre><code class="language-bash"># 提取文本
+/pdf extract document.pdf
+
+# AI 摘要
+/pdf summarize document.pdf
+
+# OCR 识别
+/pdf ocr scanned.pdf</code></pre>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>配置 AI（可选）</h3>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span>Terminal</span>
+                            <button class="copy-btn" data-code="export ANTHROPIC_API_KEY=&quot;your-key&quot;">复制</button>
+                        </div>
+                        <pre><code class="language-bash"># 方式一：环境变量
+export ANTHROPIC_API_KEY="your-key"
+
+# 方式二：配置文件
+cp config/config.yaml.example config/config.yaml</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Providers Section -->
+    <section id="ai-providers" class="ai-providers">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">AI 支持</span>
+                <h2 class="section-title">8 大 AI 平台</h2>
+            </div>
+            <div class="providers-grid">
+                <div class="provider-card">
+                    <div class="provider-logo">🟠</div>
+                    <h4>Claude</h4>
+                    <p>claude-sonnet-4-6</p>
+                </div>
+                <div class="provider-card">
+                    <div class="provider-logo">🟢</div>
+                    <h4>OpenAI</h4>
+                    <p>gpt-4o</p>
+                </div>
+                <div class="provider-card">
+                    <div class="provider-logo">🔵</div>
+                    <h4>Gemini</h4>
+                    <p>gemini-2.0-flash-exp</p>
+                </div>
+                <div class="provider-card">
+                    <div class="provider-logo">🟣</div>
+                    <h4>DeepSeek</h4>
+                    <p>deepseek-chat</p>
+                </div>
+                <div class="provider-card">
+                    <div class="provider-logo">🟡</div>
+                    <h4>Qwen</h4>
+                    <p>qwen-turbo</p>
+                </div>
+                <div class="provider-card">
+                    <div class="provider-logo">🔴</div>
+                    <h4>智谱 AI</h4>
+                    <p>glm-4-flash</p>
+                </div>
+                <div class="provider-card">
+                    <div class="provider-logo">⚪</div>
+                    <h4>Moonshot</h4>
+                    <p>moonshot-v1-8k</p>
+                </div>
+                <div class="provider-card">
+                    <div class="provider-logo">⚫</div>
+                    <h4>Ollama</h4>
+                    <p>llama3.2 (本地)</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Agents Section -->
+    <section class="agents">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">子代理</span>
+                <h2 class="section-title">15 个专业子代理</h2>
+            </div>
+            <div class="agents-grid">
+                <div class="agent-card">
+                    <span class="agent-model haiku">haiku</span>
+                    <h4>pdf-explorer</h4>
+                    <p>快速探索 PDF 结构、元数据</p>
+                </div>
+                <div class="agent-card">
+                    <span class="agent-model sonnet">sonnet</span>
+                    <h4>pdf-analyzer</h4>
+                    <p>深度分析内容、表格、图片</p>
+                </div>
+                <div class="agent-card">
+                    <span class="agent-model sonnet">sonnet</span>
+                    <h4>pdf-converter</h4>
+                    <p>格式转换：PDF → Excel/MD/图片</p>
+                </div>
+                <div class="agent-card">
+                    <span class="agent-model sonnet">sonnet</span>
+                    <h4>pdf-extract</h4>
+                    <p>内容提取：文本、表格、图片</p>
+                </div>
+                <div class="agent-card">
+                    <span class="agent-model haiku">haiku</span>
+                    <h4>pdf-merge-split</h4>
+                    <p>合并多个 PDF 或拆分</p>
+                </div>
+                <div class="agent-card">
+                    <span class="agent-model sonnet">sonnet</span>
+                    <h4>pdf-security</h4>
+                    <p>加密、解密、敏感信息涂抹</p>
+                </div>
+                <div class="agent-card">
+                    <span class="agent-model sonnet">sonnet</span>
+                    <h4>pdf-ocr</h4>
+                    <p>OCR 识别：扫描件文字提取</p>
+                </div>
+                <div class="agent-card">
+                    <span class="agent-model sonnet">sonnet</span>
+                    <h4>pdf-ai</h4>
+                    <p>AI 增强：摘要、翻译、问答</p>
+                </div>
+                <div class="agent-card">
+                    <span class="agent-model haiku">haiku</span>
+                    <h4>pdf-form</h4>
+                    <p>表单处理：检查、填写、提取</p>
+                </div>
+                <div class="agent-card">
+                    <span class="agent-model sonnet">sonnet</span>
+                    <h4>pdf-batch</h4>
+                    <p>批量处理大量 PDF 文件</p>
+                </div>
+                <div class="agent-card">
+                    <span class="agent-model sonnet">sonnet</span>
+                    <h4>pdf-compare</h4>
+                    <p>对比两个 PDF 文件差异</p>
+                </div>
+                <div class="agent-card">
+                    <span class="agent-model sonnet">sonnet</span>
+                    <h4>pdf-repair</h4>
+                    <p>修复损坏的 PDF 文件</p>
+                </div>
+                <div class="agent-card">
+                    <span class="agent-model haiku">haiku</span>
+                    <h4>pdf-compress</h4>
+                    <p>压缩 PDF 文件大小</p>
+                </div>
+                <div class="agent-card">
+                    <span class="agent-model haiku">haiku</span>
+                    <h4>pdf-watermark</h4>
+                    <p>添加、管理 PDF 水印</p>
+                </div>
+                <div class="agent-card">
+                    <span class="agent-model haiku">haiku</span>
+                    <h4>pdf-metadata</h4>
+                    <p>元数据提取、编辑、管理</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <h2>开始使用 PDF-Master</h2>
+            <p>一个插件，解决所有 PDF 处理需求</p>
+            <div class="cta-buttons">
+                <a href="#quickstart" class="btn btn-primary btn-large">
+                    快速开始
+                </a>
+                <a href="https://github.com/zshyc/pdf-master" target="_blank" class="btn btn-secondary btn-large">
+                    GitHub 仓库
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span class="logo-icon">📄</span>
+                    <span class="logo-text">PDF-Master</span>
+                    <p>全能型 PDF 处理 Claude Code 插件</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>文档</h4>
+                        <a href="#features">功能特性</a>
+                        <a href="#comparison">功能对比</a>
+                        <a href="#quickstart">快速开始</a>
+                        <a href="#ai-providers">AI 支持</a>
+                    </div>
+                    <div class="footer-column">
+                        <h4>资源</h4>
+                        <a href="https://github.com/zshyc/pdf-master" target="_blank">GitHub</a>
+                        <a href="https://github.com/zshyc/pdf-master/issues" target="_blank">问题反馈</a>
+                        <a href="https://github.com/zshyc/pdf-master/blob/main/CHANGELOG.md" target="_blank">更新日志</a>
+                    </div>
+                    <div class="footer-column">
+                        <h4>联系</h4>
+                        <a href="mailto:17669757689@163.com">Email</a>
+                        <a href="https://github.com/zshyc" target="_blank">作者主页</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>Made with ❤️ by zshyc</p>
+                <p>MIT License</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
