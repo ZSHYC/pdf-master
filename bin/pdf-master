@@ -1,0 +1,50 @@
+#!/usr/bin/env python3
+"""PDF-Master CLI Entry Point"""
+import sys
+import os
+
+# Add scripts directory to path
+script_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'skills', 'pdf', 'scripts')
+sys.path.insert(0, script_dir)
+
+def main():
+    if len(sys.argv) < 2:
+        print("PDF-Master CLI")
+        print("Usage: pdf-master <command> [args]")
+        print("\nCommands:")
+        print("  extract   - Extract text/tables/images from PDF")
+        print("  merge     - Merge multiple PDFs")
+        print("  split     - Split PDF into parts")
+        print("  convert   - Convert PDF to other formats")
+        print("  summarize - AI-powered PDF summarization")
+        print("  ocr       - OCR recognition for scanned PDFs")
+        print("  encrypt   - Encrypt PDF with password")
+        print("  decrypt   - Decrypt PDF")
+        print("\nRun 'pdf-master <command> --help' for more info.")
+        sys.exit(0)
+
+    command = sys.argv[1]
+    args = sys.argv[2:]
+
+    # Map commands to scripts
+    scripts = {
+        'extract': 'extract_text.py',
+        'merge': 'merge_pdfs.py',
+        'split': 'split_pdf.py',
+        'convert': 'convert_pdf_to_images.py',
+        'summarize': 'summarize_pdf.py',
+        'ocr': 'ocr_pdf.py',
+        'encrypt': 'encrypt_pdf.py',
+        'decrypt': 'decrypt_pdf.py',
+    }
+
+    if command not in scripts:
+        print(f"Unknown command: {command}")
+        print("Available commands:", ', '.join(scripts.keys()))
+        sys.exit(1)
+
+    script_path = os.path.join(script_dir, scripts[command])
+    os.system(f'python {script_path} {" ".join(args)}')
+
+if __name__ == '__main__':
+    main()

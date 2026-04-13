@@ -1,0 +1,25 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python -c \"import pypdf, pdfplumber, fitz, reportlab, PIL\" 2>/dev/null || echo '{\"additionalContext\": \"PDF dependencies not fully installed. Run: pip install pypdf pdfplumber PyMuPDF reportlab Pillow\"}'"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "FILE=$(echo \"$CLAUDE_TOOL_INPUT\" | python -c \"import sys,json; d=json.load(sys.stdin); print(d.get('file_path',''))\" 2>/dev/null); if [ -n \"$FILE\" ] && echo \"$FILE\" | grep -qi '\\.pdf$'; then echo 'PDF file modified: checking integrity...'; python \"${CLAUDE_PLUGIN_ROOT}/skills/pdf/scripts/pdf_validate.py\" \"$FILE\" 2>/dev/null || true; fi"
+          }
+        ]
+      }
+    ]
+  }
+}

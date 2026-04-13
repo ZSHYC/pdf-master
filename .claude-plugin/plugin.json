@@ -1,11 +1,13 @@
 {
   "name": "pdf-master",
-  "description": "全能型 PDF 处理插件：解析提取、编辑转换、AI 增强（支持 8 大平台）、OCR 识别、LaTeX 排版、安全权限、表单处理",
   "version": "1.0.0",
+  "description": "全能型PDF处理插件：解析提取、编辑转换、AI增强（支持8大平台）、OCR识别、LaTeX排版、安全权限、表单处理",
   "author": {
-    "name": "zshyc",
-    "email": "17669757689@163.com"
+    "name": "ZSHYC",
+    "email": "17669757689@163.com",
+    "url": "https://github.com/ZSHYC"
   },
+  "homepage": "https://github.com/ZSHYC/pdf-master#readme",
   "repository": "https://github.com/ZSHYC/pdf-master",
   "license": "MIT",
   "keywords": [
@@ -22,14 +24,33 @@
     "translate",
     "encrypt",
     "decrypt",
-    "watermark",
-    "claude",
-    "openai",
-    "gemini",
-    "qwen",
-    "deepseek",
-    "ollama",
-    "tesseract",
-    "paddleocr"
-  ]
+    "watermark"
+  ],
+  "skills": "./skills/pdf",
+  "agents": "./agents",
+  "hooks": "./hooks/hooks.json",
+  "mcpServers": "./.mcp.json",
+  "outputStyles": "./output-styles",
+  "userConfig": {
+    "ai_provider": {
+      "description": "默认AI提供商 (claude/openai/gemini/deepseek/qwen/zhipu/moonshot/ollama)",
+      "sensitive": false
+    },
+    "ai_api_key": {
+      "description": "AI提供商API密钥（如使用Claude则设置ANTHROPIC_API_KEY）",
+      "sensitive": true
+    },
+    "ocr_engine": {
+      "description": "默认OCR引擎 (tesseract/paddleocr)",
+      "sensitive": false
+    },
+    "output_format": {
+      "description": "默认输出格式 (text/markdown/json)",
+      "sensitive": false
+    },
+    "output_dir": {
+      "description": "默认输出目录",
+      "sensitive": false
+    }
+  }
 }
