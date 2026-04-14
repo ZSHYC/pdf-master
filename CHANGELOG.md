@@ -5,94 +5,41 @@ All notable changes to PDF-Master will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.1.0] - 2026-04-14
-
-### Added
-
-#### New Features
-- **Configurable AI Provider System**: Customizable AI provider configuration via YAML files
-- **6 New Tool Scripts**: pdf_info, pdf_validate, pdf_compress, pdf_repair, pdf_compare, batch_process
-- **Complete Documentation System**: 5 core documents + 4 example files
-
-#### Infrastructure
-- **CI/CD Pipeline**: GitHub Actions workflow with automated testing
-- **Makefile**: Build automation with test, format, lint commands
-- **Pre-commit Hooks**: Code quality automation
-
-#### Testing
-- **12 New Test Files**: Comprehensive test coverage
-- **232 Test Cases**: Full coverage for all PDF operations
+## [1.4.1] - 2026-04-14
 
 ### Fixed
+- **sign_pdf.py**: Fixed endesive API compatibility - key and cert must be cryptography objects, not bytes
+- **encrypt_pdf.py**: Fixed pypdf API compatibility - `permissions` → `permissions_flag`
+- **bookmarks.py**: Fixed Windows console encoding issue - Unicode bullet → ASCII dash
+- **watermark_pdf.py**: Fixed image watermark support - PNG/JPG now properly converted to PDF before applying
 
-#### Code Quality (Official Spec Audit)
-- **PEP 8 Compliance**: Split imports, added docstrings, type hints
-- **Agent Configuration**: Migrated from `disallowedTools` to `allowed-tools` whitelist
-- **Hooks Configuration**: Fixed matcher patterns and event types
-- **Shell Scripts**: Fixed syntax errors in batch_processing.sh
+### Dependencies
+- Added `endesive` to optional dependencies for digital signature support
 
-#### Project Files
-- **CONTRIBUTING.md**: Contribution guidelines
-- **CODE_OF_CONDUCT.md**: Community code of conduct
-- **Issue/PR Templates**: GitHub issue and PR templates
-- **ARCHITECTURE.md**: Project architecture documentation
-
-### Changed
-- **Git Permissions**: Set execute permission for bin/pdf-master
-- **Model Info**: Updated AI model references to claude-sonnet-4-6
-
-## [1.0.0] - 2026-04-13
+## [1.4.0] - 2026-04-14
 
 ### Added
+- **PDF/A Conversion**: Support for PDF/A-1b/2b/3b archive format conversion and validation
+- **Security Audit**: Detect JavaScript/embedded files/suspicious links and other security risks
+- **Bookmark Management**: Add/delete/extract PDF bookmarks
+- **Link Management**: Extract/add/delete PDF hyperlinks
+- **Annotation Management**: Add/delete/extract PDF annotations (text/highlight/underline)
+- **Test Coverage**: Extended to 343 test cases
 
-#### Core Features
-- **PDF Extraction**: Extract text, tables, images, and metadata from PDF files
-- **PDF Editing**: Merge, split, rotate, and add watermarks to PDFs
-- **Format Conversion**: Convert PDF to Excel, Markdown, and images
-- **AI Enhancement**: Summarize, Q&A, and translate PDFs with 8 AI platforms
-- **OCR Support**: Recognize text from scanned PDFs (Tesseract/PaddleOCR)
-- **Security**: Encrypt, decrypt, and redact sensitive information
-- **Form Handling**: Check, extract, and fill PDF form fields
+## [1.3.0] - 2026-04-14
 
-#### Plugin Components
-- **Skills**: Main PDF processing skill with 20+ operations
-- **Agents**: Three specialized subagents (pdf-explorer, pdf-analyzer, pdf-converter)
-- **Hooks**: SessionStart dependency check, PostToolUse PDF validation
-- **Output Styles**: pdf-report and pdf-summary styles
+### Added
+- **Digital Signatures**: X.509 certificate signing, verification, timestamp service support
+- **Signature Algorithms**: RSA/ECDSA support, visible/invisible signatures
+- **Test Coverage**: 282 test cases (25 new signature tests)
+- **Research Report**: 30 agent teams parallel research output
 
-#### AI Provider Support
-- Claude (Anthropic)
-- OpenAI (GPT)
-- Google Gemini
-- DeepSeek
-- Qwen (通义千问)
-- 智谱 GLM
-- Moonshot AI
-- Ollama (local)
+## [1.2.0] - 2026-04-14
 
-#### Documentation
-- Comprehensive README with usage examples
-- Reference documentation for advanced features
-- AI configuration guide
-- OCR setup instructions
-- Form handling guide
-- Security features documentation
-- LaTeX rendering support
+### Fixed
+- **Security Enhancements**: Fixed hooks security vulnerabilities, added sensitive file protection
+- **Configuration**: Added `.env.example` and `settings.json`
 
-### Technical Details
-- Python-based scripts with CLI support
-- Modular architecture for easy extension
-- Configuration via YAML files
-- Environment variable support for API keys
-- Progress display for long operations
-- Batch processing capabilities
-
-## [Unreleased]
-
-### Planned
-- Web UI for PDF operations
-- Cloud storage integration
-- Batch processing dashboard
-- Custom AI prompt templates
-- PDF comparison tool
-- Digital signature support
+### Added
+- **Batch Rename**: Support content/metadata/date/custom rules
+- **Test Coverage**: 257 test cases, 60%+ coverage

@@ -111,7 +111,7 @@ def encrypt_pdf(
             user_password=user_password,
             owner_password=owner_password,
             use_128bit=use_128bit,
-            permissions=permissions
+            permissions_flag=permissions
         )
 
         # 创建输出目录

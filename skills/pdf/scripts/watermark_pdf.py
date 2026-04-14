@@ -169,12 +169,36 @@ def add_watermark(
                 page_height=page_height
             )
             wm_file = temp_watermark
+            # 文本水印创建的是 PNG 文件，需要转换为 PDF
+            is_image_watermark = True
         else:
             print("错误: 请指定水印图片或水印文字")
             return False
 
-        # 读取水印 PDF
-        wm_reader = PdfReader(wm_file)
+        # 读取水印
+        # 如果是图片文件（PNG/JPG），需要先转换为 PDF
+        if wm_file.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp')):
+            # 使用 reportlab 将图片转换为 PDF
+            from reportlab.lib.pagesizes import letter
+            from reportlab.pdfgen import canvas
+            import tempfile
+
+            # 获取图片尺寸
+            img = Image.open(wm_file)
+            img_width, img_height = img.size
+            img.close()
+
+            # 创建临时 PDF 文件
+            temp_pdf = tempfile.NamedTemporaryFile(suffix='.pdf', delete=False)
+            c = canvas.Canvas(temp_pdf.name, pagesize=(img_width, img_height))
+            c.drawImage(wm_file, 0, 0, width=img_width, height=img_height)
+            c.save()
+            wm_pdf_file = temp_pdf.name
+            temp_pdf.close()
+        else:
+            wm_pdf_file = wm_file
+
+        wm_reader = PdfReader(wm_pdf_file)
         wm_page = wm_reader.pages[0]
 
         # 确定要添加水印的页面

@@ -179,8 +179,13 @@ def sign_pdf(
     """
     try:
         # 加载证书和私钥
-        cert_data = load_certificate(cert_path)
-        key_data = load_private_key(key_path, key_password)
+        cert_pem = load_certificate(cert_path)
+        key_pem = load_private_key(key_path, key_password)
+
+        # 解析为 cryptography 对象
+        from cryptography.hazmat.primitives.serialization import load_pem_private_key
+        cert = load_pem_x509_certificate(cert_pem)
+        private_key = load_pem_private_key(key_pem, password=key_password.encode() if key_password else None)
 
         # 读取 PDF 文件
         with open(input_file, 'rb') as f:
@@ -192,33 +197,46 @@ def sign_pdf(
             print(f"签名原因: {reason}")
             print(f"摘要算法: {digest_algorithm}")
 
-        # 构建签名参数
-        signature_params = {
-            'signature': key_data,
-            'certificate': cert_data,
-            'reason': reason,
-            'location': location,
+        # 构建签名参数字典 (udct) - endesive 要求特定格式
+        signing_date = datetime.utcnow().strftime("D:%Y%m%d%H%M%S+00'00'")
+        udct = {
+            'sigflags': 3,
+            'sigpage': page,
+            'sigfield': 'Signature1',
+            'auto_sigfield': True,
+            'signform': False,
+            'sigandcertify': False,
+            'signaturebox': None,
+            'signature': '',
+            'signature_img': None,
             'contact': contact_info,
-            'signingtime': datetime.utcnow(),
-            'algorithm': digest_algorithm,
+            'location': location,
+            'reason': reason,
+            'signingdate': signing_date,
         }
 
         # 添加可见签名框
         if visible and box != (0, 0, 0, 0):
-            signature_params['signaturebox'] = box
-            signature_params['signaturepage'] = page
+            udct['signaturebox'] = box
+            udct['sigpage'] = page
 
             # 添加签名图片
             if image_path:
                 with open(image_path, 'rb') as f:
-                    signature_params['signatureimage'] = f.read()
+                    udct['signature_img'] = f.read()
 
-        # 添加时间戳
-        if timestamp_server:
-            signature_params['timestamper'] = timestamp_server
+        # 映射摘要算法
+        algo_map = {
+            'sha1': 'sha1',
+            'sha256': 'sha256',
+            'sha384': 'sha384',
+            'sha512': 'sha512',
+        }
+        algomd = algo_map.get(digest_algorithm, 'sha256')
 
-        # 执行签名
-        signed_pdf = cms.sign(pdf_data, **signature_params)
+        # 执行签名 - endesive API: sign(datau, udct, key, cert, othercerts, algomd)
+        # key 和 cert 需要是 cryptography 对象
+        signed_pdf = cms.sign(pdf_data, udct, private_key, cert, [], algomd=algomd, timestampurl=timestamp_server if timestamp_server else None)
 
         # 写入输出文件
         Path(output_file).parent.mkdir(parents=True, exist_ok=True)
@@ -271,7 +289,7 @@ def sign_pdf_pkcs12(
         bool: 签名是否成功
     """
     try:
-        # 加载 PKCS#12 文件
+        # 加载 PKCS#12 文件 - 已经是 cryptography 对象
         private_key, certificate, chain = load_pkcs12(p12_path, password)
 
         if verbose:
@@ -285,38 +303,52 @@ def sign_pdf_pkcs12(
         with open(input_file, 'rb') as f:
             pdf_data = f.read()
 
-        # 构建签名参数
-        signature_params = {
-            'signature': private_key.private_bytes(
-                encoding=serialization.Encoding.PEM,
-                format=serialization.PrivateFormat.PKCS8,
-                encryption_algorithm=serialization.NoEncryption()
-            ),
-            'certificate': certificate.public_bytes(serialization.Encoding.PEM),
-            'reason': reason,
-            'location': location,
+        # 构建签名参数字典 (udct) - endesive 要求特定格式
+        signing_date = datetime.utcnow().strftime("D:%Y%m%d%H%M%S+00'00'")
+        udct = {
+            'sigflags': 3,
+            'sigpage': page,
+            'sigfield': 'Signature1',
+            'auto_sigfield': True,
+            'signform': False,
+            'sigandcertify': False,
+            'signaturebox': None,
+            'signature': '',
+            'signature_img': None,
             'contact': contact_info,
-            'signingtime': datetime.utcnow(),
-            'algorithm': digest_algorithm,
+            'location': location,
+            'reason': reason,
+            'signingdate': signing_date,
         }
-
-        # 添加证书链
-        if chain:
-            signature_params['chain'] = [
-                cert.public_bytes(serialization.Encoding.PEM) for cert in chain
-            ]
 
         # 添加可见签名框
         if visible and box != (0, 0, 0, 0):
-            signature_params['signaturebox'] = box
-            signature_params['signaturepage'] = page
+            udct['signaturebox'] = box
+            udct['sigpage'] = page
 
-        # 添加时间戳
-        if timestamp_server:
-            signature_params['timestamper'] = timestamp_server
+        # 映射摘要算法
+        algo_map = {
+            'sha1': 'sha1',
+            'sha256': 'sha256',
+            'sha384': 'sha384',
+            'sha512': 'sha512',
+        }
+        algomd = algo_map.get(digest_algorithm, 'sha256')
 
-        # 执行签名
-        signed_pdf = cms.sign(pdf_data, **signature_params)
+        # 准备证书链 - endesive 需要 cryptography 对象
+        othercerts = list(chain) if chain else []
+
+        # 执行签名 - endesive API: sign(datau, udct, key, cert, othercerts, algomd)
+        # key 和 cert 需要是 cryptography 对象
+        signed_pdf = cms.sign(
+            pdf_data,
+            udct,
+            private_key,
+            certificate,
+            othercerts,
+            algomd=algomd,
+            timestampurl=timestamp_server if timestamp_server else None
+        )
 
         # 写入输出文件
         Path(output_file).parent.mkdir(parents=True, exist_ok=True)

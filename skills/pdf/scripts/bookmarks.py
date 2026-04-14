@@ -183,7 +183,7 @@ def list_bookmarks(pdf_path: str, output_format: str = "text") -> str:
         if bookmark.color:
             color_str = f" (RGB: {bookmark.color[0]:.2f}, {bookmark.color[1]:.2f}, {bookmark.color[2]:.2f})"
 
-        lines.append(f"{prefix}• Page {bookmark.page + 1}: {bookmark.title}{style}{color_str}")
+        lines.append(f"{prefix}- Page {bookmark.page + 1}: {bookmark.title}{style}{color_str}")
         for child in bookmark.children:
             lines.extend(format_bookmark(child, indent + 1))
         return lines

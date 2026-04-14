@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PDF-Master - 全能型 PDF 处理 Claude Code 插件</title>
-    <meta name="description" content="一个插件，覆盖所有 PDF 场景 — 解析、编辑、转换、AI 增强、OCR、安全。支持 8 大 AI 平台，28+ 种操作。">
+    <meta name="description" content="一个插件，覆盖所有 PDF 场景 — 解析、编辑、转换、AI 增强、OCR、安全。支持 8 大 AI 平台，40+ 种操作，343 测试用例。">
     <link rel="stylesheet" href="css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -45,7 +45,7 @@
         <div class="hero-container">
             <div class="hero-badge">
                 <span class="badge-icon">🚀</span>
-                <span>v1.1.0 发布</span>
+                <span>v1.4.1 发布</span>
             </div>
             <h1 class="hero-title">
                 全能型 PDF 处理<br>
@@ -71,7 +71,7 @@
             </div>
             <div class="hero-stats">
                 <div class="stat">
-                    <span class="stat-value">28+</span>
+                    <span class="stat-value">40+</span>
                     <span class="stat-label">操作类型</span>
                 </div>
                 <div class="stat">
@@ -79,7 +79,7 @@
                     <span class="stat-label">AI 平台</span>
                 </div>
                 <div class="stat">
-                    <span class="stat-value">232</span>
+                    <span class="stat-value">343</span>
                     <span class="stat-label">测试用例</span>
                 </div>
                 <div class="stat">
@@ -102,7 +102,7 @@
             <div class="solution-card">
                 <div class="solution-icon">✨</div>
                 <h3>解法</h3>
-                <p><strong>PDF-Master</strong> 一个插件搞定全部，<strong>28+ 种操作</strong>，开箱即用。</p>
+                <p><strong>PDF-Master</strong> 一个插件搞定全部，<strong>40+ 种操作</strong>，开箱即用。</p>
             </div>
         </div>
     </section>
@@ -143,7 +143,7 @@
                 <div class="feature-card">
                     <div class="feature-icon">✅</div>
                     <h3>生产就绪</h3>
-                    <p>232 测试用例 + CI/CD + 完整文档</p>
+                    <p>343 测试用例 + CI/CD + 完整文档</p>
                 </div>
             </div>
         </div>
@@ -154,7 +154,7 @@
         <div class="container">
             <div class="section-header">
                 <span class="section-tag">功能全景</span>
-                <h2 class="section-title">28+ 种操作，覆盖全场景</h2>
+                <h2 class="section-title">40+ 种操作，覆盖全场景</h2>
             </div>
             <div class="operations-grid">
                 <div class="op-category">
@@ -208,7 +208,9 @@
                         <li>加密 PDF（AES-256）</li>
                         <li>解密 PDF</li>
                         <li>敏感信息涂抹</li>
+                        <li>数字签名</li>
                         <li>签名验证</li>
+                        <li>安全审计</li>
                     </ul>
                 </div>
                 <div class="op-category">
@@ -221,6 +223,15 @@
                     </ul>
                 </div>
                 <div class="op-category">
+                    <h4>📑 高级功能</h4>
+                    <ul>
+                        <li>PDF/A 存档格式</li>
+                        <li>书签管理</li>
+                        <li>超链接管理</li>
+                        <li>注释管理</li>
+                    </ul>
+                </div>
+                <div class="op-category">
                     <h4>🛠️ 工具脚本</h4>
                     <ul>
                         <li>PDF 信息</li>
@@ -229,6 +240,7 @@
                         <li>修复损坏</li>
                         <li>比较差异</li>
                         <li>批量处理</li>
+                        <li>批量重命名</li>
                     </ul>
                 </div>
             </div>
@@ -362,6 +374,48 @@
                         <tr>
                             <td>批量处理</td>
                             <td class="highlight">✅</td>
+                            <td>❌</td>
+                            <td>❌</td>
+                            <td>❌</td>
+                        </tr>
+                        <tr class="unique-row">
+                            <td><strong>数字签名</strong></td>
+                            <td class="highlight"><strong>✅</strong></td>
+                            <td>❌</td>
+                            <td>❌</td>
+                            <td>❌</td>
+                        </tr>
+                        <tr class="unique-row">
+                            <td><strong>PDF/A 转换</strong></td>
+                            <td class="highlight"><strong>✅</strong></td>
+                            <td>❌</td>
+                            <td>❌</td>
+                            <td>❌</td>
+                        </tr>
+                        <tr class="unique-row">
+                            <td><strong>安全审计</strong></td>
+                            <td class="highlight"><strong>✅</strong></td>
+                            <td>❌</td>
+                            <td>❌</td>
+                            <td>❌</td>
+                        </tr>
+                        <tr class="unique-row">
+                            <td><strong>书签管理</strong></td>
+                            <td class="highlight"><strong>✅</strong></td>
+                            <td>❌</td>
+                            <td>❌</td>
+                            <td>❌</td>
+                        </tr>
+                        <tr class="unique-row">
+                            <td><strong>链接管理</strong></td>
+                            <td class="highlight"><strong>✅</strong></td>
+                            <td>❌</td>
+                            <td>❌</td>
+                            <td>❌</td>
+                        </tr>
+                        <tr class="unique-row">
+                            <td><strong>注释管理</strong></td>
+                            <td class="highlight"><strong>✅</strong></td>
                             <td>❌</td>
                             <td>❌</td>
                             <td>❌</td>
