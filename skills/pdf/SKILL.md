@@ -12,7 +12,7 @@ user-invocable: true
 
 # PDF-Master
 
-全能型 PDF 处理工具，提供 **25+ 种操作**。
+全能型 PDF 处理工具，提供 **40+ 种操作**。
 
 ## 快速命令
 
@@ -34,6 +34,7 @@ user-invocable: true
 /pdf convert --to-excel document.pdf
 /pdf convert --to-markdown document.pdf
 /pdf convert --to-images document.pdf
+/pdf pdfa document.pdf -o archive.pdf --level 2b  # PDF/A 存档格式
 
 # AI 增强
 /pdf summarize document.pdf
@@ -47,10 +48,28 @@ user-invocable: true
 /pdf encrypt document.pdf --password secret
 /pdf decrypt encrypted.pdf --password secret
 /pdf redact document.pdf --text "sensitive"
+/pdf sign document.pdf --cert cert.p12 --password secret  # 数字签名
+/pdf verify document.pdf  # 验证签名
+/pdf audit document.pdf   # 安全审计
 
 # 表单处理
 /pdf form-check document.pdf
 /pdf form-fill document.pdf --data fields.json
+
+# 书签管理
+/pdf bookmarks list document.pdf
+/pdf bookmarks add document.pdf --title "第一章" --page 1
+/pdf bookmarks remove document.pdf --all
+
+# 链接管理
+/pdf links list document.pdf
+/pdf links add document.pdf --page 1 --rect "100,100,200,120" --url "https://example.com"
+/pdf links remove document.pdf --suspicious
+
+# 注释管理
+/pdf annotations list document.pdf
+/pdf annotations add document.pdf --page 1 --pos "100,100" --contents "重要"
+/pdf annotations remove document.pdf --type Highlight
 
 # 批量重命名
 /pdf rename *.pdf --rule metadata --template "{author} - {title}"
