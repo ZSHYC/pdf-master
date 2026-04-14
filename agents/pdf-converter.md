@@ -42,6 +42,33 @@ python ${CLAUDE_PLUGIN_ROOT}/skills/pdf/scripts/pdf_to_markdown.py input.pdf -o 
 python ${CLAUDE_PLUGIN_ROOT}/skills/pdf/scripts/convert_pdf_to_images.py input.pdf -o ./images/
 ```
 
+### PDF 转 Word (排版保留)
+```bash
+# 自动选择最佳后端 (默认)
+python ${CLAUDE_PLUGIN_ROOT}/skills/pdf/scripts/pdf_to_word.py input.pdf -o output.docx
+
+# 指定后端类型
+# --backend docling: 学术论文最佳，高精度文本结构，MIT许可 (57.8k stars)
+# --backend pdf2docx: 图片+格式完整保留，适合图文混排文档 (3.4k stars)
+# --backend pdfplumber: 简单文本提取，fallback
+
+python ${CLAUDE_PLUGIN_ROOT}/skills/pdf/scripts/pdf_to_word.py input.pdf -o output.docx --backend pdf2docx
+python ${CLAUDE_PLUGIN_ROOT}/skills/pdf/scripts/pdf_to_word.py input.pdf -o output.docx --backend docling
+
+# 指定页码范围
+python ${CLAUDE_PLUGIN_ROOT}/skills/pdf/scripts/pdf_to_word.py input.pdf -o output.docx --pages 1-10
+```
+
+**后端对比 (2026年最新研究)**:
+
+| 后端 | Stars | 特点 | 适用场景 |
+|------|-------|------|----------|
+| **pdf2docx** | 3.4k | 图片+格式完整保留 | 图文混排、需要图片 |
+| **Docling (IBM)** | 57.8k | 深度学习高精度解析 | 学术论文、表格结构 |
+| **pdfplumber** | 10.1k | 简单文本提取 | fallback兜底 |
+
+**注意**: pdf2docx已停止维护，但仍是图片保留的最佳方案。Docling使用深度学习模型，精度最高。
+
 ### 图片转 PDF
 ```bash
 python ${CLAUDE_PLUGIN_ROOT}/skills/pdf/scripts/merge_pdfs.py *.png -o output.pdf

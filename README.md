@@ -63,6 +63,7 @@
 | **书签管理** | ✅ | ❌ | ❌ | ❌ |
 | **链接管理** | ✅ | ❌ | ❌ | ❌ |
 | **注释管理** | ✅ | ❌ | ❌ | ❌ |
+| **PDF → Word** | ✅ | ❌ | ❌ | ❌ |
 
 ---
 
@@ -191,7 +192,20 @@ python scripts/pdf_to_excel.py input.pdf -o output.xlsx
 
 # PDF → Markdown
 python scripts/pdf_to_markdown.py input.pdf -o output.md
+
+# PDF → Word (多后端支持)
+python scripts/pdf_to_word.py input.pdf -o output.docx              # 自动选择最佳后端
+python scripts/pdf_to_word.py input.pdf -o output.docx --backend pdf2docx  # 图片+格式完整保留
+python scripts/pdf_to_word.py input.pdf -o output.docx --backend docling   # 学术论文高精度解析
 ```
+
+**PDF → Word 后端对比 (2026年最新)**
+
+| 后端 | Stars | 特点 | 适用场景 |
+|------|-------|------|----------|
+| pdf2docx | 3.4k | 图片+格式完整保留 | 图文混排文档 |
+| Docling (IBM) | 57.8k | 深度学习高精度解析 | 学术论文、表格结构 |
+| pdfplumber | 10.1k | 简单文本提取 | fallback兜底 |
 
 ### 🤖 AI 增强
 
@@ -361,7 +375,7 @@ pdf-master/
 |------|------|------|
 | `pdf-explorer` | haiku | 快速探索 PDF 结构、元数据、表单字段 |
 | `pdf-analyzer` | sonnet | 深度分析 PDF 内容、文本、表格、图片 |
-| `pdf-converter` | sonnet | 格式转换：PDF → Excel/Markdown/图片 |
+| `pdf-converter` | sonnet | 格式转换：PDF → Excel/Markdown/图片/Word |
 | `pdf-extract` | sonnet | 内容提取：文本、表格、图片 |
 | `pdf-merge-split` | haiku | 合并多个 PDF 或拆分单个 PDF |
 | `pdf-security` | sonnet | 加密、解密、敏感信息涂抹 |
