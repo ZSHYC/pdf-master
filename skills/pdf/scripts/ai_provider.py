@@ -19,6 +19,32 @@ from abc import ABC, abstractmethod
 from typing import List, Dict, Any, Optional, Union
 from dataclasses import dataclass
 from enum import Enum
+from pathlib import Path
+
+
+def _load_claude_code_env():
+    """
+    自动加载 Claude Code 的环境变量配置
+
+    Claude Code 将 API Key 存储在 ~/.claude/settings.json 的 env 字段中。
+    这个函数在模块加载时自动调用，实现零配置设计。
+    """
+    settings_path = Path.home() / '.claude' / 'settings.json'
+    if settings_path.exists():
+        try:
+            with open(settings_path, 'r', encoding='utf-8') as f:
+                settings = json.load(f)
+                env = settings.get('env', {})
+                for key, value in env.items():
+                    # 只设置未定义的环境变量
+                    if key not in os.environ and value:
+                        os.environ[key] = value
+        except Exception:
+            pass  # 静默失败，不影响正常使用
+
+
+# 模块加载时自动执行
+_load_claude_code_env()
 
 # Import ProviderManager
 try:
@@ -92,10 +118,23 @@ class ClaudeProvider(BaseAIProvider):
     PROVIDER_NAME = "claude"
     DEFAULT_MODEL = "claude-3-5-sonnet-20241022"
     ENV_KEY = "ANTHROPIC_API_KEY"
+    # Claude Code 可能使用的其他环境变量
+    ALT_ENV_KEYS = ["ANTHROPIC_AUTH_TOKEN"]
 
-    def __init__(self, model: str = None, api_key: Optional[str] = None, **kwargs):
+    def __init__(self, model: str = None, api_key: Optional[str] = None, base_url: Optional[str] = None, **kwargs):
         model = model or self.DEFAULT_MODEL
-        api_key = api_key or os.environ.get(self.ENV_KEY)
+        # 优先使用传入的 api_key，然后检查环境变量
+        if api_key is None:
+            api_key = os.environ.get(self.ENV_KEY)
+            # 如果 ANTHROPIC_API_KEY 未设置，检查 Claude Code 的 ANTHROPIC_AUTH_TOKEN
+            if api_key is None:
+                api_key = os.environ.get("ANTHROPIC_AUTH_TOKEN")
+        # 如果未传入 base_url，检查环境变量
+        if base_url is None:
+            base_url = os.environ.get("ANTHROPIC_BASE_URL")
+        # 将 base_url 存入 config
+        if base_url:
+            kwargs['base_url'] = base_url
         super().__init__(model, api_key, **kwargs)
         self._client = None
 
@@ -103,7 +142,12 @@ class ClaudeProvider(BaseAIProvider):
         if self._client is None:
             try:
                 import anthropic
-                self._client = anthropic.Anthropic(api_key=self.api_key)
+                # 检查是否使用自定义 base_url（如 Claude Code 代理）
+                base_url = self.config.get('base_url') or os.environ.get("ANTHROPIC_BASE_URL")
+                if base_url:
+                    self._client = anthropic.Anthropic(api_key=self.api_key, base_url=base_url)
+                else:
+                    self._client = anthropic.Anthropic(api_key=self.api_key)
             except ImportError:
                 raise ImportError("pip install anthropic")
         return self._client
@@ -127,13 +171,42 @@ class ClaudeProvider(BaseAIProvider):
         if "temperature" in kwargs:
             params["temperature"] = kwargs["temperature"]
         response = client.messages.create(**params)
-        return ChatResponse(
-            content=response.content[0].text,
-            model=response.model,
-            provider=self.PROVIDER_NAME,
-            usage={"input_tokens": response.usage.input_tokens, "output_tokens": response.usage.output_tokens},
-            finish_reason=response.stop_reason
-        )
+
+        # 处理代理服务器可能返回的非标准响应
+        if isinstance(response, str):
+            # 某些代理直接返回字符串
+            return ChatResponse(
+                content=response,
+                model=self.model,
+                provider=self.PROVIDER_NAME,
+                usage=None,
+                finish_reason="stop"
+            )
+        elif hasattr(response, 'choices'):
+            # OpenAI 格式响应（某些代理使用）
+            return ChatResponse(
+                content=response.choices[0].message.content,
+                model=response.model,
+                provider=self.PROVIDER_NAME,
+                usage={"input_tokens": response.usage.prompt_tokens, "output_tokens": response.usage.completion_tokens} if response.usage else None,
+                finish_reason=response.choices[0].finish_reason
+            )
+        else:
+            # 标准 Anthropic 响应
+            # 处理 response.content 可能包含多个 block 的情况
+            content_text = ""
+            for block in response.content:
+                if hasattr(block, 'text'):
+                    content_text += block.text
+                elif isinstance(block, dict) and 'text' in block:
+                    content_text += block['text']
+            return ChatResponse(
+                content=content_text,
+                model=response.model,
+                provider=self.PROVIDER_NAME,
+                usage={"input_tokens": response.usage.input_tokens, "output_tokens": response.usage.output_tokens} if hasattr(response, 'usage') else None,
+                finish_reason=response.stop_reason if hasattr(response, 'stop_reason') else "stop"
+            )
 
 
 class OpenAIProvider(BaseAIProvider):
@@ -461,23 +534,32 @@ class AIProvider:
         """从配置初始化 provider"""
         provider_id = config['id']
         provider_type_str = config.get('type', 'openai-compatible')
-        
-        # 获取 API key
+
+        # 获取 API key - 支持多个环境变量名（零配置设计）
         api_key = kwargs.pop('api_key', None)
         if api_key is None and config.get('env_key'):
+            # 首先检查主环境变量
             api_key = os.environ.get(config['env_key'])
-        
-        # 获取 API base URL
-        api_base = kwargs.pop('base_url', config.get('api_base'))
-        
+            # 对于 Claude，还检查 Claude Code 使用的 ANTHROPIC_AUTH_TOKEN
+            if api_key is None and provider_id == 'claude':
+                api_key = os.environ.get('ANTHROPIC_AUTH_TOKEN')
+
+        # 获取 API base URL - 优先使用环境变量（零配置设计）
+        # 顺序：环境变量 > YAML 配置
+        env_base_url = os.environ.get('ANTHROPIC_BASE_URL') if provider_id == 'claude' else None
+        if env_base_url:
+            api_base = env_base_url
+        else:
+            api_base = kwargs.pop('base_url', config.get('api_base'))
+
         # 获取模型
         if model is None:
             model = config.get('default_model', '')
-        
+
         # 根据类型创建 provider
         if provider_type_str == 'official':
             if provider_id == 'claude':
-                self._provider = ClaudeProvider(model=model, api_key=api_key, **kwargs)
+                self._provider = ClaudeProvider(model=model, api_key=api_key, base_url=api_base, **kwargs)
             elif provider_id == 'gemini':
                 self._provider = GeminiProvider(model=model, api_key=api_key, **kwargs)
             elif provider_id == 'zhipu':
@@ -493,7 +575,7 @@ class AIProvider:
                 self._provider = CustomOpenAIProvider(provider_id=provider_id, model=model, api_key=api_key or 'dummy', base_url=api_base, **kwargs)
         else:
             self._provider = CustomOpenAIProvider(provider_id=provider_id, model=model, api_key=api_key, base_url=api_base, **kwargs)
-        
+
         # 设置 provider_type：内置 provider 使用枚举，自定义 provider 使用字符串
         self.provider_type = self._get_provider_type_for_id(provider_id)
         self._config = config

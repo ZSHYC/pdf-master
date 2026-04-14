@@ -33,6 +33,7 @@ providers:
   - id: claude
     name: Claude (Anthropic)
     category: official
+    type: official
     description: Anthropic 官方 API，Claude Code 默认使用
     api_base: https://api.anthropic.com
     api_format: anthropic
