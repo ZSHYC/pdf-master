@@ -418,6 +418,8 @@ pre-commit install
 - 📚 完整文档体系（5 个核心文档 + 4 个示例文件）
 - ✅ CI/CD 管道（GitHub Actions + Makefile + pre-commit）
 - ✅ 12 个新测试文件，232 个测试用例
+- 🔧 官方规范审计修复（PEP 8、Agent 白名单、Hooks 配置）
+- 📝 新增 CONTRIBUTING.md、CODE_OF_CONDUCT.md、Issue/PR 模板
 
 ### v1.0.0 (2026-04-13)
 

@@ -7,8 +7,7 @@ maxTurns: 10
 allowed-tools:
   - Bash(python *)
   - Read
-disallowedTools:
-  - Bash(rm -rf *)
+  - Glob
 user-invocable: true
 ---
 

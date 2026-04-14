@@ -8,8 +8,6 @@ allowed-tools:
   - Bash(python *)
   - Read
   - Glob
-disallowedTools:
-  - Bash(rm -rf *)
 user-invocable: true
 ---
 
@@ -40,7 +38,7 @@ python ${CLAUDE_PLUGIN_ROOT}/skills/pdf/scripts/extract_images.py input.pdf -o i
 python ${CLAUDE_PLUGIN_ROOT}/skills/pdf/scripts/extract_text.py input.pdf -o output.txt --pages 1-10
 ```
 
-## 输出格式
+## 输出格式选项
 
 | 格式 | 参数 | 适用场景 |
 |------|------|----------|

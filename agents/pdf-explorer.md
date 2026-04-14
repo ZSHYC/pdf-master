@@ -4,10 +4,10 @@ description: 探索PDF文件结构，提取元数据、目录、页面信息。U
 model: haiku
 effort: low
 maxTurns: 10
-disallowedTools:
-  - Write
-  - Edit
-  - Bash(rm *)
+allowed-tools:
+  - Bash(python *)
+  - Read
+  - Glob
 user-invocable: true
 ---
 

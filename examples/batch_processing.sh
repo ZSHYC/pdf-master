@@ -39,7 +39,7 @@ echo ""
 
 echo "合并所有 PDF"
 echo "----------------------------------------"
-python "$SCRIPTS_DIR/merge_pdfs.py "$INPUT_DIR"/*.pdf -o "$OUTPUT_DIR/merged.pdf" -v
+python "$SCRIPTS_DIR/merge_pdfs.py" "$INPUT_DIR"/*.pdf -o "$OUTPUT_DIR/merged.pdf" -v
 echo ""
 
 echo "批量转换为图片"

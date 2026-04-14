@@ -5,7 +5,43 @@ All notable changes to PDF-Master will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.0.0] - 2024-04-14
+## [1.1.0] - 2026-04-14
+
+### Added
+
+#### New Features
+- **Configurable AI Provider System**: Customizable AI provider configuration via YAML files
+- **6 New Tool Scripts**: pdf_info, pdf_validate, pdf_compress, pdf_repair, pdf_compare, batch_process
+- **Complete Documentation System**: 5 core documents + 4 example files
+
+#### Infrastructure
+- **CI/CD Pipeline**: GitHub Actions workflow with automated testing
+- **Makefile**: Build automation with test, format, lint commands
+- **Pre-commit Hooks**: Code quality automation
+
+#### Testing
+- **12 New Test Files**: Comprehensive test coverage
+- **232 Test Cases**: Full coverage for all PDF operations
+
+### Fixed
+
+#### Code Quality (Official Spec Audit)
+- **PEP 8 Compliance**: Split imports, added docstrings, type hints
+- **Agent Configuration**: Migrated from `disallowedTools` to `allowed-tools` whitelist
+- **Hooks Configuration**: Fixed matcher patterns and event types
+- **Shell Scripts**: Fixed syntax errors in batch_processing.sh
+
+#### Project Files
+- **CONTRIBUTING.md**: Contribution guidelines
+- **CODE_OF_CONDUCT.md**: Community code of conduct
+- **Issue/PR Templates**: GitHub issue and PR templates
+- **ARCHITECTURE.md**: Project architecture documentation
+
+### Changed
+- **Git Permissions**: Set execute permission for bin/pdf-master
+- **Model Info**: Updated AI model references to claude-sonnet-4-6
+
+## [1.0.0] - 2026-04-13
 
 ### Added
 

@@ -2,11 +2,16 @@
 
 ## 支持的 AI 提供商
 
-| 提供商 | 环境变量 | 模型 |
-|--------|----------|------|
-| Anthropic | `ANTHROPIC_API_KEY` | Claude 3.5 Sonnet |
-| OpenAI | `OPENAI_API_KEY` | GPT-4o |
-| Google | `GOOGLE_API_KEY` | Gemini 1.5 Pro |
+| 提供商 | 环境变量 | 默认模型 |
+|--------|----------|----------|
+| Claude | `ANTHROPIC_API_KEY` | claude-sonnet-4-6 |
+| OpenAI | `OPENAI_API_KEY` | gpt-4o |
+| Gemini | `GOOGLE_API_KEY` | gemini-2.0-flash-exp |
+| DeepSeek | `DEEPSEEK_API_KEY` | deepseek-chat |
+| Qwen | `QWEN_API_KEY` | qwen-turbo |
+| 智谱 AI | `ZHIPU_API_KEY` | glm-4-flash |
+| Moonshot | `MOONSHOT_API_KEY` | moonshot-v1-8k |
+| Ollama | 无需 | llama3.2 |
 
 ## 环境变量配置
 

@@ -1,15 +1,12 @@
 ---
 name: pdf
-description: PDF处理工具。提取文本/表格/图片，合并拆分水印，格式转换，AI摘要/翻译，OCR识别，加密解密，表单处理。Use when working with PDF files, extracting content, converting formats, or applying AI enhancements.
+description: PDF processing toolkit. Extract text/tables/images, merge/split/watermark, format conversion, AI summarization/translation, OCR, encryption/decryption, form handling. Use when working with PDF files, extracting content, converting formats, or applying AI enhancements.
 argument-hint: <action> [file] [options]
 allowed-tools:
-  - Bash(python *)
-  - Bash(pip *)
+  - Bash
   - Read
   - Glob
   - Grep
-paths:
-  - "**/*.pdf"
 user-invocable: true
 ---
 

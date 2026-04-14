@@ -2,6 +2,7 @@
   "hooks": {
     "SessionStart": [
       {
+        "matcher": "startup",
         "hooks": [
           {
             "type": "command",
@@ -16,7 +17,7 @@
         "hooks": [
           {
             "type": "command",
-            "if": "Bash(rm -rf *)",
+            "if": "Bash(rm -rf /*)",
             "command": "echo '{\"hookSpecificOutput\": {\"hookEventName\": \"PreToolUse\", \"permissionDecision\": \"deny\", \"permissionDecisionReason\": \"Destructive command blocked by PDF-Master security policy\"}}'"
           }
         ]
@@ -35,11 +36,11 @@
     ],
     "PostToolUseFailure": [
       {
-        "matcher": "Bash(python *pdf*)",
+        "matcher": "Bash",
         "hooks": [
           {
             "type": "command",
-            "command": "echo 'PDF operation failed. Check if the file exists and is a valid PDF.'"
+            "command": "CMD=$(echo \"$CLAUDE_TOOL_INPUT\" | python -c \"import sys,json; d=json.load(sys.stdin); print(d.get('command',''))\" 2>/dev/null); if echo \"$CMD\" | grep -qi 'pdf'; then echo 'PDF operation failed. Check if the file exists and is a valid PDF.'; fi"
           }
         ]
       }

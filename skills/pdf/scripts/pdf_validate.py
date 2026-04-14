@@ -1,12 +1,24 @@
 #!/usr/bin/env python3
-import argparse, json, sys
+"""PDF validation script.
+
+This script validates PDF files for structural integrity and common issues.
+It checks file existence, readability, encryption status, and page validity.
+
+Usage:
+    pdf_validate.py <input.pdf> [--json]
+"""
+
+import argparse
+import json
+import sys
 from pathlib import Path
 from typing import Any, Dict
 
 try:
     from pypdf import PdfReader
 except ImportError:
-    print("Error: Missing pypdf"); sys.exit(1)
+    print("Error: Missing pypdf")
+    sys.exit(1)
 
 def validate_pdf(pdf_path: str, verbose: bool = False) -> Dict[str, Any]:
     path = Path(pdf_path)
@@ -21,9 +33,17 @@ def validate_pdf(pdf_path: str, verbose: bool = False) -> Dict[str, Any]:
             result["info"]["page_count"] = len(reader.pages)
             result["info"]["encrypted"] = reader.is_encrypted
             for i, page in enumerate(reader.pages):
-                try: pass
+                try:
+                    # Validate page structure
+                    _ = page.mediabox
+                    _ = page.get("/Contents", None)
+                    # Check if page has content
+                    if page.get("/Contents") is None:
+                        result["warnings"].append(
+                            f"Page {i + 1}: No content stream"
+                        )
                 except Exception as e:
-                    result["errors"].append(f"Page {i+1} error: {e}")
+                    result["errors"].append(f"Page {i + 1} error: {e}")
                     result["valid"] = False
     except Exception as e:
         result["valid"] = False
@@ -42,7 +62,10 @@ def main():
         status = "VALID" if result["valid"] else "INVALID"
         print(f"Status: {status}")
         if result["errors"]:
-            for e in result["errors"]: print(f"  Error: {e}")
+            for e in result["errors"]:
+                print(f"  Error: {e}")
     sys.exit(0 if result["valid"] else 1)
 
-if __name__ == "__main__": main()
+
+if __name__ == "__main__":
+    main()
