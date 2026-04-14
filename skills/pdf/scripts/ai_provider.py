@@ -122,7 +122,10 @@ class ClaudeProvider(BaseAIProvider):
     ALT_ENV_KEYS = ["ANTHROPIC_AUTH_TOKEN"]
 
     def __init__(self, model: str = None, api_key: Optional[str] = None, base_url: Optional[str] = None, **kwargs):
-        model = model or self.DEFAULT_MODEL
+        # 零配置设计：优先使用 Claude Code 的 ANTHROPIC_MODEL 环境变量
+        # 这支持代理/配置商使用不同模型名的情况（如 glm-5）
+        if model is None:
+            model = os.environ.get("ANTHROPIC_MODEL") or self.DEFAULT_MODEL
         # 优先使用传入的 api_key，然后检查环境变量
         if api_key is None:
             api_key = os.environ.get(self.ENV_KEY)
@@ -552,9 +555,13 @@ class AIProvider:
         else:
             api_base = kwargs.pop('base_url', config.get('api_base'))
 
-        # 获取模型
+        # 获取模型 - 优先使用环境变量（零配置设计）
+        # Claude Code 代理可能使用不同的模型名（如 glm-5）
         if model is None:
-            model = config.get('default_model', '')
+            if provider_id == 'claude':
+                model = os.environ.get('ANTHROPIC_MODEL') or config.get('default_model', '')
+            else:
+                model = config.get('default_model', '')
 
         # 根据类型创建 provider
         if provider_type_str == 'official':

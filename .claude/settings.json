@@ -1,5 +1,3 @@
 {
-  "hooks": {
-    "include": ["hooks/hooks.json"]
-  }
+  "enabledPlugins": {}
 }
