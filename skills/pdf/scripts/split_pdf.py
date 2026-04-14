@@ -269,6 +269,7 @@ def main():
     parser.add_argument(
         '-s', '--single',
         action='store_true',
+        default=None,
         help='每页拆分为单独文件'
     )
 

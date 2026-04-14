@@ -247,7 +247,7 @@ def main():
 涂抹样式:
   blackout   黑色覆盖（默认）
   whiteout   白色覆盖
-  redact     显示 [REDACTED] 标记
+  redact     显示 REDACTED 标记（涂抹框）
   replace    显示 *** 标记
 
 匹配模式:
@@ -255,31 +255,31 @@ def main():
   -r, --regex PATTERN 正则表达式匹配（可多次使用）
 
 常用正则表达式示例:
-  邮箱:     -r '[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}'
-  电话:     -r '\d{3,4}-\d{7,8}'
-  手机:     -r '1[3-9]\d{9}'
-  身份证:   -r '\d{17}[\dXx]'
-  银行卡:   -r '\d{16,19}'
-  信用卡:   -r '\d{4}[\s-]?\d{4}[\s-]?\d{4}[\s-]?\d{4}'
+  邮箱:     -r "[a-zA-Z0-9._%%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}"
+  电话:     -r "\\d{3,4}-\\d{7,8}"
+  手机:     -r "1[3-9]\\d{9}"
+  身份证:   -r "\\d{17}[\\dXx]"
+  银行卡:   -r "\\d{16,19}"
+  信用卡:   -r "\\d{4}[\\s-]?\\d{4}[\\s-]?\\d{4}[\\s-]?\\d{4}"
 
 示例:
   # 涂抹特定文字
-  %(prog)s input.pdf -t "机密" -o redacted.pdf
+  %%(prog)s input.pdf -t "机密" -o redacted.pdf
 
   # 涂抹多个关键词
-  %(prog)s input.pdf -t "密码" -t "账号" -o redacted.pdf
+  %%(prog)s input.pdf -t "密码" -t "账号" -o redacted.pdf
 
   # 使用正则表达式涂抹邮箱
-  %(prog)s input.pdf -r '[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}' -o redacted.pdf
+  %%(prog)s input.pdf -r "[a-zA-Z0-9._%%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}" -o redacted.pdf
 
   # 涂抹身份证号
-  %(prog)s input.pdf -r '\d{17}[\dXx]' --style redact -o redacted.pdf
+  %%(prog)s input.pdf -r "\\d{17}[\\dXx]" --style redact -o redacted.pdf
 
   # 预览模式（查看将删除的内容）
-  %(prog)s input.pdf -t "机密" --preview
+  %%(prog)s input.pdf -t "机密" --preview
 
   # 仅处理特定页面
-  %(prog)s input.pdf -t "机密" -p 1-5 -o redacted.pdf
+  %%(prog)s input.pdf -t "机密" -p 1-5 -o redacted.pdf
 '''
     )
 
