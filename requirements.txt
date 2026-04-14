@@ -32,6 +32,14 @@ rich>=13.0.0
 # -------------------------------------------
 
 # -------------------------------------------
+# Optional: Digital Signatures (install as needed)
+# -------------------------------------------
+# endesive>=2.0.0       # PDF digital signature
+# cryptography>=41.0.0  # Certificate handling
+# pyHanko>=0.20.0       # Advanced PDF signing (alternative)
+# -------------------------------------------
+
+# -------------------------------------------
 # Optional: LaTeX (system dependency)
 # -------------------------------------------
 # Requires: TeX Live or MiKTeX installed

@@ -12,7 +12,7 @@ user-invocable: true
 
 # PDF-Master
 
-全能型 PDF 处理工具，提供 **20+ 种操作**。
+全能型 PDF 处理工具，提供 **25+ 种操作**。
 
 ## 快速命令
 
@@ -51,6 +51,13 @@ user-invocable: true
 # 表单处理
 /pdf form-check document.pdf
 /pdf form-fill document.pdf --data fields.json
+
+# 批量重命名
+/pdf rename *.pdf --rule metadata --template "{author} - {title}"
+/pdf rename *.pdf --rule date --template "{date:%Y-%m-%d}_{filename}"
+/pdf rename *.pdf --rule content --template "{title}"
+/pdf rename *.pdf --rule custom --template "Document_{counter:04d}"
+/pdf rename *.pdf --dry-run  # 预览重命名结果
 ```
 
 ## 执行脚本
