@@ -27,29 +27,55 @@
     "watermark"
   ],
   "skills": "./skills/pdf",
-  "agents": "./agents",
+  "agents": [
+    "./agents/pdf-ai.md",
+    "./agents/pdf-analyzer.md",
+    "./agents/pdf-batch.md",
+    "./agents/pdf-compare.md",
+    "./agents/pdf-compress.md",
+    "./agents/pdf-converter.md",
+    "./agents/pdf-explorer.md",
+    "./agents/pdf-extract.md",
+    "./agents/pdf-form.md",
+    "./agents/pdf-merge-split.md",
+    "./agents/pdf-metadata.md",
+    "./agents/pdf-ocr.md",
+    "./agents/pdf-repair.md",
+    "./agents/pdf-security.md",
+    "./agents/pdf-watermark.md"
+  ],
   "hooks": "./hooks/hooks.json",
   "mcpServers": "./.mcp.json",
   "outputStyles": "./output-styles",
   "bin": "./bin",
   "userConfig": {
     "ai_provider": {
+      "title": "AI Provider",
+      "type": "string",
       "description": "默认AI提供商 (claude/openai/gemini/deepseek/qwen/zhipu/moonshot/ollama)",
       "sensitive": false
     },
     "ai_api_key": {
+      "title": "AI API Key",
+      "type": "string",
       "description": "AI提供商API密钥（如使用Claude则设置ANTHROPIC_API_KEY）",
       "sensitive": true
     },
     "ocr_engine": {
+      "title": "OCR Engine",
+      "type": "string",
       "description": "默认OCR引擎 (tesseract/paddleocr)",
       "sensitive": false
     },
     "output_format": {
+      "title": "Output Format",
+      "type": "string",
       "description": "默认输出格式 (text/markdown/json)",
       "sensitive": false
     },
     "output_dir": {
+      "title": "Output Directory",
+      "type": "directory",
       "description": "默认输出目录",
       "sensitive": false
     }
