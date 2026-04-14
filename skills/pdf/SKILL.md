@@ -91,22 +91,40 @@ python ${CLAUDE_SKILL_DIR}/scripts/summarize_pdf.py document.pdf --provider clau
 
 ## AI Provider 配置
 
-设置环境变量选择 AI 平台：
+### 零配置设计
 
-| Provider | 环境变量 | 默认模型 |
-|----------|----------|----------|
-| Claude | `ANTHROPIC_API_KEY` | claude-3-5-sonnet |
-| OpenAI | `OPENAI_API_KEY` | gpt-4o |
-| Gemini | `GOOGLE_API_KEY` | gemini-2.0-flash |
-| DeepSeek | `DEEPSEEK_API_KEY` | deepseek-chat |
-| Qwen | `QWEN_API_KEY` | qwen-turbo |
-| 智谱 | `ZHIPU_API_KEY` | glm-4-flash |
-| Moonshot | `MOONSHOT_API_KEY` | moonshot-v1-8k |
-| Ollama | 无需 | llama3.2 |
+**安装即用！** PDF-Master 自动检测 Claude Code 已有的 API Key：
 
 ```bash
-python ${CLAUDE_SKILL_DIR}/scripts/summarize_pdf.py doc.pdf --provider openai
-python ${CLAUDE_SKILL_DIR}/scripts/qa_pdf.py doc.pdf --question "总结要点" --provider qwen
+# 无需任何配置，直接使用
+/pdf summarize document.pdf    # 自动使用 Claude
+```
+
+### 内置 Provider 预设（40+）
+
+| 分类 | Provider | 环境变量 | 特点 |
+|------|----------|----------|------|
+| **官方** | Claude | `ANTHROPIC_API_KEY` | 默认使用，无需配置 |
+| | OpenAI | `OPENAI_API_KEY` | GPT 系列 |
+| | Gemini | `GOOGLE_API_KEY` | Google 最新模型 |
+| **国内** | DeepSeek | `DEEPSEEK_API_KEY` | 性价比极高 |
+| | 通义千问 | `QWEN_API_KEY` | 中文效果优秀 |
+| | 智谱 GLM | `ZHIPU_API_KEY` | 国产大模型 |
+| | Moonshot | `MOONSHOT_API_KEY` | 长文本能力强 |
+| **聚合** | OpenRouter | `OPENROUTER_API_KEY` | 一个 Key 访问所有模型 |
+| **本地** | Ollama | 无需 | 隐私安全，免费 |
+
+### 快速切换 Provider
+
+```bash
+# 方式一：命令行指定
+python ${CLAUDE_SKILL_DIR}/scripts/summarize_pdf.py doc.pdf --provider deepseek
+
+# 方式二：设置环境变量
+export PDF_MASTER_PROVIDER=qwen
+
+# 方式三：配置文件
+cp config/providers.yaml ~/.pdf-master/providers.yaml
 ```
 
 ## 详细文档

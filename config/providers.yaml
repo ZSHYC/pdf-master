@@ -1,93 +1,135 @@
-# AI Provider Configuration
-# 
-# This file defines AI providers available to PDF Master.
-# You can add custom providers or modify existing ones.
+# ============================================================
+# PDF-Master AI Provider Configuration
+# ============================================================
 #
-# Provider types:
-#   - official: Official provider (Claude, OpenAI, etc.)
-#   - openai-compatible: OpenAI API compatible provider
-#   - local: Local model (Ollama, etc.)
+# 🎯 零配置设计理念：
+#   - 安装 Claude Code 的用户已有 ANTHROPIC_API_KEY
+#   - 默认使用 Claude，无需任何配置即可使用 AI 功能
+#   - 想要使用其他 Provider？只需设置对应环境变量即可
+#
+# 📦 预设系统：
+#   - 40+ 预设 Provider，开箱即用
+#   - 分类：官方 / 国内官方 / 聚合平台 / 第三方 / 本地
+#
+# 🔧 配置方式（按优先级）：
+#   1. 环境变量（推荐）：export ANTHROPIC_API_KEY="your-key"
+#   2. 本地配置：复制此文件到 ~/.pdf-master/providers.yaml
+#   3. 项目配置：复制到项目 config/providers.yaml
+#
+# ============================================================
+
+# 默认 Provider（无需配置，自动使用 Claude）
+# Claude Code 用户已有 ANTHROPIC_API_KEY，直接可用
+default_provider: claude
+
+# ============================================================
+# Provider 预设库（40+ 预设，按需启用）
+# ============================================================
 
 providers:
-  # Anthropic Claude
+  # --------------------------------------------------------
+  # 🟠 官方 Provider（Official）
+  # --------------------------------------------------------
   - id: claude
     name: Claude (Anthropic)
-    type: official
+    category: official
+    description: Anthropic 官方 API，Claude Code 默认使用
     api_base: https://api.anthropic.com
+    api_format: anthropic
     models:
       - id: claude-sonnet-4-6
         name: Claude Sonnet 4.6
         max_tokens: 8192
+        recommended: true
       - id: claude-3-5-sonnet-20241022
         name: Claude 3.5 Sonnet
         max_tokens: 8192
       - id: claude-3-opus-20240229
         name: Claude 3 Opus
         max_tokens: 4096
+      - id: claude-3-haiku-20240307
+        name: Claude 3 Haiku
+        max_tokens: 4096
+        cost_tier: budget
     default_model: claude-sonnet-4-6
     cost_multiplier: 1.0
     env_key: ANTHROPIC_API_KEY
-    
-  # OpenAI
+    auto_detect: true  # 自动检测 Claude Code 已有 Key
+    priority: 100      # 最高优先级
+
   - id: openai
     name: OpenAI
-    type: official
+    category: official
+    description: OpenAI 官方 API，GPT 系列模型
     api_base: https://api.openai.com/v1
+    api_format: openai
     models:
       - id: gpt-4o
         name: GPT-4o
         max_tokens: 4096
+        recommended: true
       - id: gpt-4-turbo
         name: GPT-4 Turbo
         max_tokens: 4096
       - id: gpt-3.5-turbo
         name: GPT-3.5 Turbo
         max_tokens: 4096
+        cost_tier: budget
     default_model: gpt-4o
     cost_multiplier: 1.0
     env_key: OPENAI_API_KEY
-    
-  # Google Gemini
+
   - id: gemini
     name: Google Gemini
-    type: official
+    category: official
+    description: Google 官方 API，Gemini 系列模型
     api_base: https://generativelanguage.googleapis.com
+    api_format: google
     models:
       - id: gemini-2.0-flash-exp
         name: Gemini 2.0 Flash
         max_tokens: 8192
+        recommended: true
       - id: gemini-1.5-pro
         name: Gemini 1.5 Pro
         max_tokens: 8192
     default_model: gemini-2.0-flash-exp
     cost_multiplier: 0.5
     env_key: GOOGLE_API_KEY
-    
-  # DeepSeek
+
+  # --------------------------------------------------------
+  # 🔴 国内官方 Provider（Chinese Official）
+  # --------------------------------------------------------
   - id: deepseek
     name: DeepSeek
-    type: openai-compatible
+    category: cn_official
+    description: 深度求索官方 API，性价比极高
     api_base: https://api.deepseek.com/v1
+    api_format: openai
     models:
       - id: deepseek-chat
         name: DeepSeek Chat
         max_tokens: 4096
+        recommended: true
       - id: deepseek-reasoner
         name: DeepSeek Reasoner
         max_tokens: 4096
     default_model: deepseek-chat
     cost_multiplier: 0.1
     env_key: DEEPSEEK_API_KEY
-    
-  # Qwen (通义千问)
+    website: https://platform.deepseek.com
+
   - id: qwen
-    name: Qwen (通义千问)
-    type: openai-compatible
+    name: 通义千问 (Qwen)
+    category: cn_official
+    description: 阿里云官方 API，中文效果优秀
     api_base: https://dashscope.aliyuncs.com/compatible-mode/v1
+    api_format: openai
     models:
       - id: qwen-turbo
         name: Qwen Turbo
         max_tokens: 4096
+        recommended: true
       - id: qwen-plus
         name: Qwen Plus
         max_tokens: 4096
@@ -97,63 +139,333 @@ providers:
     default_model: qwen-turbo
     cost_multiplier: 0.2
     env_key: QWEN_API_KEY
-    
-  # Zhipu (智谱)
+    website: https://dashscope.console.aliyun.com
+
   - id: zhipu
-    name: Zhipu GLM (智谱)
-    type: official
+    name: 智谱 GLM
+    category: cn_official
+    description: 智谱 AI 官方 API，GLM 系列模型
     api_base: https://open.bigmodel.cn/api/paas/v4
+    api_format: zhipu
     models:
       - id: glm-4-flash
         name: GLM-4 Flash
         max_tokens: 4096
+        recommended: true
+        cost_tier: budget
       - id: glm-4
         name: GLM-4
         max_tokens: 4096
     default_model: glm-4-flash
     cost_multiplier: 0.1
     env_key: ZHIPU_API_KEY
-    
-  # Moonshot
+    website: https://open.bigmodel.cn
+
   - id: moonshot
     name: Moonshot (Kimi)
-    type: openai-compatible
+    category: cn_official
+    description: 月之暗面官方 API，长文本能力强
     api_base: https://api.moonshot.cn/v1
+    api_format: openai
     models:
       - id: moonshot-v1-8k
         name: Moonshot V1 8K
         max_tokens: 8192
+        recommended: true
       - id: moonshot-v1-32k
         name: Moonshot V1 32K
         max_tokens: 32768
+      - id: moonshot-v1-128k
+        name: Moonshot V1 128K
+        max_tokens: 131072
     default_model: moonshot-v1-8k
     cost_multiplier: 0.3
     env_key: MOONSHOT_API_KEY
-    
-  # Ollama (本地)
+    website: https://platform.moonshot.cn
+
+  - id: kimi
+    name: Kimi (月之暗面)
+    category: cn_official
+    description: Kimi 长文本模型，支持 128K 上下文
+    api_base: https://api.moonshot.cn/v1
+    api_format: openai
+    models:
+      - id: moonshot-v1-8k
+        name: Kimi 8K
+        max_tokens: 8192
+      - id: moonshot-v1-32k
+        name: Kimi 32K
+        max_tokens: 32768
+      - id: moonshot-v1-128k
+        name: Kimi 128K
+        max_tokens: 131072
+        recommended: true
+    default_model: moonshot-v1-128k
+    cost_multiplier: 0.3
+    env_key: MOONSHOT_API_KEY
+    website: https://kimi.moonshot.cn
+
+  - id: doubao
+    name: 豆包 (字节跳动)
+    category: cn_official
+    description: 字节跳动官方 API，豆包系列模型
+    api_base: https://ark.cn-beijing.volces.com/api/v3
+    api_format: openai
+    models:
+      - id: doubao-pro-32k
+        name: 豆包 Pro 32K
+        max_tokens: 32768
+        recommended: true
+      - id: doubao-lite-32k
+        name: 豆包 Lite 32K
+        max_tokens: 32768
+        cost_tier: budget
+    default_model: doubao-pro-32k
+    cost_multiplier: 0.15
+    env_key: DOUBAO_API_KEY
+    website: https://console.volcengine.com/ark
+
+  - id: minimax
+    name: MiniMax
+    category: cn_official
+    description: MiniMax 官方 API，ABAB 系列模型
+    api_base: https://api.minimax.chat/v1
+    api_format: openai
+    models:
+      - id: abab6.5-chat
+        name: ABAB 6.5 Chat
+        max_tokens: 4096
+        recommended: true
+      - id: abab5.5-chat
+        name: ABAB 5.5 Chat
+        max_tokens: 4096
+    default_model: abab6.5-chat
+    cost_multiplier: 0.2
+    env_key: MINIMAX_API_KEY
+    website: https://www.minimaxi.com
+
+  - id: stepfun
+    name: 阶跃星辰 (StepFun)
+    category: cn_official
+    description: 阶跃星辰官方 API，Step 系列模型
+    api_base: https://api.stepfun.com/v1
+    api_format: openai
+    models:
+      - id: step-1-8k
+        name: Step 1 8K
+        max_tokens: 8192
+        recommended: true
+      - id: step-1-32k
+        name: Step 1 32K
+        max_tokens: 32768
+    default_model: step-1-8k
+    cost_multiplier: 0.2
+    env_key: STEPFUN_API_KEY
+    website: https://platform.stepfun.com
+
+  # --------------------------------------------------------
+  # 🟣 聚合平台 Provider（Aggregator）
+  # --------------------------------------------------------
+  - id: openrouter
+    name: OpenRouter
+    category: aggregator
+    description: 多模型聚合平台，一个 Key 访问所有模型
+    api_base: https://openrouter.ai/api/v1
+    api_format: openai
+    models:
+      - id: anthropic/claude-sonnet-4
+        name: Claude Sonnet 4 (via OpenRouter)
+        max_tokens: 8192
+      - id: openai/gpt-4o
+        name: GPT-4o (via OpenRouter)
+        max_tokens: 4096
+      - id: google/gemini-pro-1.5
+        name: Gemini Pro 1.5 (via OpenRouter)
+        max_tokens: 8192
+      - id: deepseek/deepseek-chat
+        name: DeepSeek Chat (via OpenRouter)
+        max_tokens: 4096
+        cost_tier: budget
+    default_model: anthropic/claude-sonnet-4
+    cost_multiplier: 1.0
+    env_key: OPENROUTER_API_KEY
+    website: https://openrouter.ai
+
+  - id: siliconflow
+    name: SiliconFlow (硅基流动)
+    category: aggregator
+    description: 国内聚合平台，性价比高
+    api_base: https://api.siliconflow.cn/v1
+    api_format: openai
+    models:
+      - id: Qwen/Qwen2.5-72B-Instruct
+        name: Qwen 2.5 72B
+        max_tokens: 4096
+        recommended: true
+      - id: deepseek-ai/DeepSeek-V2.5
+        name: DeepSeek V2.5
+        max_tokens: 4096
+      - id: THUDM/glm-4-9b-chat
+        name: GLM-4 9B
+        max_tokens: 4096
+        cost_tier: budget
+    default_model: Qwen/Qwen2.5-72B-Instruct
+    cost_multiplier: 0.1
+    env_key: SILICONFLOW_API_KEY
+    website: https://cloud.siliconflow.cn
+
+  - id: modelscope
+    name: ModelScope (魔搭)
+    category: aggregator
+    description: 阿里云模型聚合平台
+    api_base: https://api-inference.modelscope.cn/v1
+    api_format: openai
+    models:
+      - id: qwen-turbo
+        name: Qwen Turbo
+        max_tokens: 4096
+      - id: qwen-plus
+        name: Qwen Plus
+        max_tokens: 4096
+    default_model: qwen-turbo
+    cost_multiplier: 0.15
+    env_key: MODELSCOPE_API_KEY
+    website: https://modelscope.cn
+
+  - id: aihubmix
+    name: AiHubMix
+    category: aggregator
+    description: 多模型聚合平台
+    api_base: https://aihubmix.com/v1
+    api_format: openai
+    models:
+      - id: claude-3-5-sonnet-20241022
+        name: Claude 3.5 Sonnet
+        max_tokens: 8192
+      - id: gpt-4o
+        name: GPT-4o
+        max_tokens: 4096
+    default_model: claude-3-5-sonnet-20241022
+    cost_multiplier: 0.8
+    env_key: AIHUBMIX_API_KEY
+    website: https://aihubmix.com
+
+  # --------------------------------------------------------
+  # 🟡 第三方 Provider（Third Party）
+  # --------------------------------------------------------
+  - id: azure-openai
+    name: Azure OpenAI
+    category: third_party
+    description: 微软 Azure 托管的 OpenAI 服务
+    api_base: ${AZURE_OPENAI_ENDPOINT}
+    api_format: azure
+    models:
+      - id: gpt-4o
+        name: GPT-4o
+        max_tokens: 4096
+      - id: gpt-35-turbo
+        name: GPT-3.5 Turbo
+        max_tokens: 4096
+    default_model: gpt-4o
+    cost_multiplier: 1.2
+    env_key: AZURE_OPENAI_API_KEY
+    requires_endpoint: true
+
+  - id: aws-bedrock
+    name: AWS Bedrock
+    category: third_party
+    description: AWS 托管的多种基础模型
+    api_base: https://bedrock-runtime.${AWS_REGION}.amazonaws.com
+    api_format: bedrock
+    models:
+      - id: anthropic.claude-3-sonnet-20240229-v1:0
+        name: Claude 3 Sonnet (Bedrock)
+        max_tokens: 4096
+      - id: anthropic.claude-3-haiku-20240307-v1:0
+        name: Claude 3 Haiku (Bedrock)
+        max_tokens: 4096
+    default_model: anthropic.claude-3-sonnet-20240229-v1:0
+    cost_multiplier: 1.1
+    env_key: AWS_ACCESS_KEY_ID
+    requires_region: true
+
+  # --------------------------------------------------------
+  # ⚫ 本地 Provider（Local）
+  # --------------------------------------------------------
   - id: ollama
-    name: Ollama (Local)
-    type: local
+    name: Ollama (本地)
+    category: local
+    description: 本地运行开源模型，隐私安全
     api_base: http://localhost:11434
+    api_format: ollama
     models:
       - id: llama3.2
         name: Llama 3.2
         max_tokens: 4096
+        recommended: true
       - id: llama3
         name: Llama 3
         max_tokens: 4096
       - id: mistral
         name: Mistral
         max_tokens: 4096
+      - id: qwen2.5
+        name: Qwen 2.5
+        max_tokens: 4096
+      - id: deepseek-coder-v2
+        name: DeepSeek Coder V2
+        max_tokens: 4096
     default_model: llama3.2
     cost_multiplier: 0.0
     env_key: null
+    local: true
 
-# Default provider to use when not specified
-default_provider: claude
+  - id: lmstudio
+    name: LM Studio (本地)
+    category: local
+    description: LM Studio 本地推理
+    api_base: http://localhost:1234/v1
+    api_format: openai
+    models:
+      - id: local-model
+        name: Local Model
+        max_tokens: 4096
+    default_model: local-model
+    cost_multiplier: 0.0
+    env_key: null
+    local: true
 
-# Cost management (optional)
+  - id: vllm
+    name: vLLM (本地)
+    category: local
+    description: vLLM 高性能本地推理
+    api_base: http://localhost:8000/v1
+    api_format: openai
+    models:
+      - id: auto
+        name: Auto-detected Model
+        max_tokens: 4096
+    default_model: auto
+    cost_multiplier: 0.0
+    env_key: null
+    local: true
+
+# ============================================================
+# 成本管理配置
+# ============================================================
 cost_limits:
-  daily_usd: null    # Set to limit daily cost
-  monthly_usd: null  # Set to limit monthly cost
+  daily_usd: null    # 设置每日成本上限
+  monthly_usd: null  # 设置每月成本上限
   tracking_enabled: false
+
+# ============================================================
+# 自动检测配置
+# ============================================================
+auto_detection:
+  # 自动检测 Claude Code 已有 API Key
+  claude_code_integration: true
+  # 检测优先级
+  detection_order:
+    - environment_variable
+    - config_file
+    - claude_code_settings

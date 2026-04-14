@@ -254,45 +254,56 @@ python scripts/batch_process.py *.pdf       # 批量处理
 
 ## 🤖 AI Provider 配置
 
-### 内置 Provider
+### 零配置设计
 
-| Provider | 环境变量 | 默认模型 |
-|----------|----------|----------|
-| Claude | `ANTHROPIC_API_KEY` | claude-sonnet-4-6 |
-| OpenAI | `OPENAI_API_KEY` | gpt-4o |
-| Gemini | `GOOGLE_API_KEY` | gemini-2.0-flash-exp |
-| DeepSeek | `DEEPSEEK_API_KEY` | deepseek-chat |
-| Qwen | `QWEN_API_KEY` | qwen-turbo |
-| 智谱 AI | `ZHIPU_API_KEY` | glm-4-flash |
-| Moonshot | `MOONSHOT_API_KEY` | moonshot-v1-8k |
-| Ollama | 无需 | llama3.2 |
-
-### 添加自定义 Provider
-
-```yaml
-# config/providers.yaml
-providers:
-  - id: my-provider
-    name: My Custom Provider
-    type: openai-compatible
-    api_base: https://my-api.example.com/v1
-    models:
-      - id: my-model
-        name: My Model
-        max_tokens: 4096
-    env_key: MY_API_KEY
-```
-
-### CLI 配置工具
+**安装即用！** PDF-Master 自动检测 Claude Code 已有的 API Key：
 
 ```bash
-pdf-config list              # 列出所有 provider
-pdf-config show <id>         # 显示详情
-pdf-config add               # 添加 provider
-pdf-config remove <id>       # 删除 provider
-pdf-config set-default <id>  # 设置默认
-pdf-config test <id>         # 测试连接
+# 无需任何配置，直接使用
+/pdf summarize document.pdf    # 自动使用 Claude
 ```
+
+### 内置 Provider 预设（40+）
+
+| 分类 | Provider | 环境变量 | 特点 |
+|------|----------|----------|------|
+| **官方** | Claude | `ANTHROPIC_API_KEY` | 默认使用，无需配置 |
+| | OpenAI | `OPENAI_API_KEY` | GPT 系列 |
+| | Gemini | `GOOGLE_API_KEY` | Google 最新模型 |
+| **国内** | DeepSeek | `DEEPSEEK_API_KEY` | 性价比极高 |
+| | 通义千问 | `QWEN_API_KEY` | 中文效果优秀 |
+| | 智谱 GLM | `ZHIPU_API_KEY` | 国产大模型 |
+| | Moonshot | `MOONSHOT_API_KEY` | 长文本能力强 |
+| | 豆包 | `DOUBAO_API_KEY` | 字节跳动 |
+| | MiniMax | `MINIMAX_API_KEY` | ABAB 系列 |
+| **聚合** | OpenRouter | `OPENROUTER_API_KEY` | 一个 Key 访问所有模型 |
+| | SiliconFlow | `SILICONFLOW_API_KEY` | 国内聚合平台 |
+| **本地** | Ollama | 无需 | 隐私安全，免费 |
+
+### 快速切换 Provider
+
+```bash
+# 方式一：命令行指定
+/pdf summarize document.pdf --provider deepseek
+
+# 方式二：设置环境变量
+export PDF_MASTER_PROVIDER=qwen
+/pdf summarize document.pdf
+
+# 方式三：配置文件
+cp config/providers.yaml ~/.pdf-master/providers.yaml
+# 编辑文件设置 default_provider: qwen
+```
+
+### 配置文件位置（按优先级）
+
+1. `~/.pdf-master/providers.yaml` - 用户全局配置
+2. `./config/providers.yaml` - 项目配置
+3. 环境变量 - 最高优先级
+
+### 为什么默认使用 Claude？
+
+> **设计理念**：用户已安装 Claude Code → 必然有 `ANTHROPIC_API_KEY` → 直接使用，零配置！
 
 ---
 

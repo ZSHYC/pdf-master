@@ -476,18 +476,20 @@ pdf ocr scanned.pdf">复制</button>
                 </div>
                 <div class="step">
                     <div class="step-number">3</div>
-                    <h3>配置 AI（可选）</h3>
+                    <h3>开始使用 AI 功能</h3>
                     <div class="code-block">
                         <div class="code-header">
                             <span>Terminal</span>
-                            <button class="copy-btn" data-code="export ANTHROPIC_API_KEY=&quot;your-key&quot;">复制</button>
+                            <button class="copy-btn" data-code="pdf summarize document.pdf">复制</button>
                         </div>
-                        <pre><code class="language-bash"># 方式一：环境变量
-export ANTHROPIC_API_KEY="your-key"
+                        <pre><code class="language-bash"># 零配置！自动使用 Claude
+/pdf summarize document.pdf
 
-# 方式二：配置文件
-cp config/config.yaml.example config/config.yaml</code></pre>
+# 想用其他 Provider？设置环境变量即可
+export DEEPSEEK_API_KEY="your-key"
+/pdf summarize document.pdf --provider deepseek</code></pre>
                     </div>
+                    <p class="step-note">💡 已安装 Claude Code？无需任何配置，直接使用！</p>
                 </div>
             </div>
         </div>
@@ -498,48 +500,125 @@ cp config/config.yaml.example config/config.yaml</code></pre>
         <div class="container">
             <div class="section-header">
                 <span class="section-tag">AI 支持</span>
-                <h2 class="section-title">8 大 AI 平台</h2>
+                <h2 class="section-title">零配置，安装即用</h2>
+                <p class="section-subtitle">自动检测 Claude Code 已有 API Key，无需额外配置</p>
             </div>
-            <div class="providers-grid">
-                <div class="provider-card">
-                    <div class="provider-logo">🟠</div>
-                    <h4>Claude</h4>
-                    <p>claude-sonnet-4-6</p>
+            <div class="zero-config-banner">
+                <div class="zero-config-icon">🎯</div>
+                <div class="zero-config-content">
+                    <h3>设计理念</h3>
+                    <p>用户已安装 Claude Code → 必然有 <code>ANTHROPIC_API_KEY</code> → 自动检测并使用</p>
                 </div>
-                <div class="provider-card">
-                    <div class="provider-logo">🟢</div>
-                    <h4>OpenAI</h4>
-                    <p>gpt-4o</p>
+            </div>
+            <div class="section-header" style="margin-top: 40px;">
+                <h3 class="section-title" style="font-size: 1.5rem;">40+ Provider 预设</h3>
+            </div>
+            <div class="providers-categories">
+                <div class="provider-category">
+                    <h4>🟠 官方 Provider</h4>
+                    <div class="providers-grid">
+                        <div class="provider-card featured">
+                            <div class="provider-badge">默认</div>
+                            <div class="provider-logo">🟠</div>
+                            <h4>Claude</h4>
+                            <p>claude-sonnet-4-6</p>
+                            <span class="provider-note">无需配置</span>
+                        </div>
+                        <div class="provider-card">
+                            <div class="provider-logo">🟢</div>
+                            <h4>OpenAI</h4>
+                            <p>gpt-4o</p>
+                        </div>
+                        <div class="provider-card">
+                            <div class="provider-logo">🔵</div>
+                            <h4>Gemini</h4>
+                            <p>gemini-2.0-flash-exp</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="provider-card">
-                    <div class="provider-logo">🔵</div>
-                    <h4>Gemini</h4>
-                    <p>gemini-2.0-flash-exp</p>
+                <div class="provider-category">
+                    <h4>🔴 国内官方 Provider</h4>
+                    <div class="providers-grid">
+                        <div class="provider-card">
+                            <div class="provider-logo">🟣</div>
+                            <h4>DeepSeek</h4>
+                            <p>deepseek-chat</p>
+                            <span class="provider-note">性价比极高</span>
+                        </div>
+                        <div class="provider-card">
+                            <div class="provider-logo">🟡</div>
+                            <h4>通义千问</h4>
+                            <p>qwen-turbo</p>
+                            <span class="provider-note">中文优秀</span>
+                        </div>
+                        <div class="provider-card">
+                            <div class="provider-logo">🔴</div>
+                            <h4>智谱 GLM</h4>
+                            <p>glm-4-flash</p>
+                        </div>
+                        <div class="provider-card">
+                            <div class="provider-logo">⚪</div>
+                            <h4>Moonshot</h4>
+                            <p>moonshot-v1-128k</p>
+                            <span class="provider-note">长文本</span>
+                        </div>
+                        <div class="provider-card">
+                            <div class="provider-logo">🟤</div>
+                            <h4>豆包</h4>
+                            <p>doubao-pro-32k</p>
+                        </div>
+                        <div class="provider-card">
+                            <div class="provider-logo">🟠</div>
+                            <h4>MiniMax</h4>
+                            <p>abab6.5-chat</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="provider-card">
-                    <div class="provider-logo">🟣</div>
-                    <h4>DeepSeek</h4>
-                    <p>deepseek-chat</p>
+                <div class="provider-category">
+                    <h4>🟣 聚合平台</h4>
+                    <div class="providers-grid">
+                        <div class="provider-card">
+                            <div class="provider-logo">🌐</div>
+                            <h4>OpenRouter</h4>
+                            <p>多模型聚合</p>
+                            <span class="provider-note">一个 Key 全搞定</span>
+                        </div>
+                        <div class="provider-card">
+                            <div class="provider-logo">💎</div>
+                            <h4>SiliconFlow</h4>
+                            <p>国内聚合</p>
+                            <span class="provider-note">性价比高</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="provider-card">
-                    <div class="provider-logo">🟡</div>
-                    <h4>Qwen</h4>
-                    <p>qwen-turbo</p>
+                <div class="provider-category">
+                    <h4>⚫ 本地运行</h4>
+                    <div class="providers-grid">
+                        <div class="provider-card">
+                            <div class="provider-logo">⚫</div>
+                            <h4>Ollama</h4>
+                            <p>llama3.2</p>
+                            <span class="provider-note">隐私安全</span>
+                        </div>
+                        <div class="provider-card">
+                            <div class="provider-logo">🖥️</div>
+                            <h4>LM Studio</h4>
+                            <p>本地推理</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="provider-card">
-                    <div class="provider-logo">🔴</div>
-                    <h4>智谱 AI</h4>
-                    <p>glm-4-flash</p>
-                </div>
-                <div class="provider-card">
-                    <div class="provider-logo">⚪</div>
-                    <h4>Moonshot</h4>
-                    <p>moonshot-v1-8k</p>
-                </div>
-                <div class="provider-card">
-                    <div class="provider-logo">⚫</div>
-                    <h4>Ollama</h4>
-                    <p>llama3.2 (本地)</p>
+            </div>
+            <div class="quick-switch">
+                <h4>快速切换 Provider</h4>
+                <div class="code-block">
+                    <pre><code class="language-bash"># 方式一：命令行指定
+/pdf summarize document.pdf --provider deepseek
+
+# 方式二：环境变量
+export PDF_MASTER_PROVIDER=qwen
+
+# 方式三：配置文件
+cp config/providers.yaml ~/.pdf-master/providers.yaml</code></pre>
                 </div>
             </div>
         </div>
