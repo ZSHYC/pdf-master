@@ -17,8 +17,16 @@
         "hooks": [
           {
             "type": "command",
-            "if": "Bash(rm -rf /*)",
-            "command": "echo '{\"hookSpecificOutput\": {\"hookEventName\": \"PreToolUse\", \"permissionDecision\": \"deny\", \"permissionDecisionReason\": \"Destructive command blocked by PDF-Master security policy\"}}'"
+            "command": "CMD=$(echo \"$CLAUDE_TOOL_INPUT\" | python -c \"import sys,json; d=json.load(sys.stdin); print(d.get('command',''))\" 2>/dev/null); if echo \"$CMD\" | grep -qiE '(rm\\s+-rf\\s+(/|\\*|\\.)|del\\s+/s|format\\s+[a-z]:|mkfs|dd\\s+if=.*of=/dev/)'; then echo '{\"hookSpecificOutput\": {\"hookEventName\": \"PreToolUse\", \"permissionDecision\": \"deny\", \"permissionDecisionReason\": \"Destructive command blocked by PDF-Master security policy\"}}'; fi"
+          }
+        ]
+      },
+      {
+        "matcher": "Read",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "FILE=$(echo \"$CLAUDE_TOOL_INPUT\" | python -c \"import sys,json; d=json.load(sys.stdin); print(d.get('file_path',''))\" 2>/dev/null); if echo \"$FILE\" | grep -qiE '(\\.env$|\\.env\\.|credentials|\\.pem$|\\.key$|secret|password)'; then echo '{\"hookSpecificOutput\": {\"hookEventName\": \"PreToolUse\", \"permissionDecision\": \"deny\", \"permissionDecisionReason\": \"Sensitive file access blocked by PDF-Master security policy\"}}'; fi"
           }
         ]
       }
