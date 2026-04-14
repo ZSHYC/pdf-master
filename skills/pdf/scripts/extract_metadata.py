@@ -120,11 +120,15 @@ def extract_metadata(pdf_path: str) -> Dict[str, Any]:
             result["document_info"] = {k: v for k, v in result["document_info"].items() if v is not None}
 
         # Technical information
+        try:
+            has_xmp = reader.xmp_metadata is not None
+        except Exception:
+            has_xmp = False
         result["technical_info"] = {
             "page_count": len(reader.pages),
             "pdf_version": get_pdf_version(f),
             "is_linear": getattr(reader, 'is_linear', False),
-            "xmp_metadata": reader.xmp_metadata is not None
+            "xmp_metadata": has_xmp
         }
 
         # Security information

@@ -1,17 +1,18 @@
 # PDF-Master 功能测试报告
 
 测试时间: 2026-04-15
-测试文件: example_pdf.pdf (39页学术论文)
+测试文件1: example_pdf.pdf (39页学术论文)
+测试文件2: 1-s2.0-S0029801826013612-main.pdf (20页学术论文)
 测试人员: Claude Code
 
 ## 测试结果总览
 
 | 状态 | 数量 |
 |------|------|
-| ✅ 通过 | 24 |
-| ❌ 失败 | 2 |
+| ✅ 通过 | 28+ |
+| ❌ 发现BUG | 4 |
+| ✅ 已修复 | 4 |
 | ⚠️ 环境问题 | 3 |
-| ⏸️ 跳过 | - |
 
 ## 详细测试结果
 
@@ -54,6 +55,8 @@
 |---|------|------|----------|------|
 | 1 | split_pdf.py 参数检测BUG | split_pdf.py | 🔴 高 | ✅ 已修复 |
 | 2 | redact_pdf.py 帮助信息格式化错误 | redact_pdf.py | 🟡 中 | ✅ 已修复 |
+| 3 | pdf_info.py XMP元数据解析崩溃 | pdf_info.py | 🔴 高 | ✅ 已修复 |
+| 4 | extract_metadata.py XMP元数据解析崩溃 | extract_metadata.py | 🔴 高 | ✅ 已修复 |
 
 ### ⚠️ 环境问题（需手动安装）
 
@@ -94,6 +97,16 @@ Total: 343
 - 🔧 修复 redact_pdf.py: argparse epilog 中正则表达式格式化错误
   - 原因: `%` 字符在 argparse 的 epilog 中需要用 `%%` 转义
   - 影响: 运行 `--help` 时抛出 ValueError
+
+- 🔧 修复 pdf_info.py: XMP元数据解析异常崩溃
+  - 原因: `reader.xmp_metadata` 属性访问可能抛出 XML 解析异常
+  - 影响: 含无效XMP的PDF直接崩溃退出
+  - 修复: 添加 try-except 包装
+
+- 🔧 修复 extract_metadata.py: XMP元数据解析异常崩溃
+  - 原因: 同上
+  - 影响: 同上
+  - 修复: 同上
 
 ## 建议改进
 

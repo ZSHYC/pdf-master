@@ -89,7 +89,11 @@ def get_metadata(reader) -> Dict[str, Any]:
 
 
 def get_technical_info(reader) -> Dict[str, Any]:
-    result = {"is_encrypted": reader.is_encrypted, "is_linear": getattr(reader, "is_linear", False), "xmp_metadata": reader.xmp_metadata is not None}
+    result = {"is_encrypted": reader.is_encrypted, "is_linear": getattr(reader, "is_linear", False)}
+    try:
+        result["xmp_metadata"] = reader.xmp_metadata is not None
+    except Exception:
+        result["xmp_metadata"] = False
     try:
         if hasattr(reader, "pdf_header"):
             result["pdf_version"] = reader.pdf_header.strip()

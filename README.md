@@ -432,7 +432,9 @@ pre-commit install
 
 - 🔧 修复 split_pdf.py：参数检测逻辑错误（`--single` 默认值）
 - 🔧 修复 redact_pdf.py：帮助信息正则表达式格式化错误
-- ✅ 功能验证：28+ 功能全部通过实际测试
+- 🔧 修复 pdf_info.py：XMP元数据解析异常崩溃
+- 🔧 修复 extract_metadata.py：XMP元数据解析异常崩溃
+- ✅ 功能验证：28+ 功能全部通过实际测试（2个PDF）
 - 📊 测试报告：新增完整功能测试文档
 
 ### v1.4.1 (2026-04-14)
